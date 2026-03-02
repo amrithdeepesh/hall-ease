@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -34,5 +35,9 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->role === 'admin';
+    }
+    public function createdBookings()
+    {
+        return $this->hasMany(Booking::class, 'created_by');
     }
 }

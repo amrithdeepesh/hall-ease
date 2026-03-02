@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,14 +10,17 @@ class Booking extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'hall_id',
+        'customer_id',
+        'created_by',
         'event_date',
         'start_time',
         'end_time',
         'total_amount',
+        'advance_amount',
         'booking_status',
         'payment_status',
+        'cancellation_reason',
     ];
 
     protected $casts = [
@@ -25,21 +29,28 @@ class Booking extends Model
         'end_time' => 'datetime:H:i',
     ];
 
-    // 🔗 Booking belongs to User
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    // 🔗 Booking belongs to Hall
     public function hall()
     {
         return $this->belongsTo(Hall::class);
     }
 
-    // 🔗 One Booking → One Payment
-    public function payment()
+    public function customer()
     {
-        return $this->hasOne(Payment::class);
+        return $this->belongsTo(User::class, 'customer_id');
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(HallImage::class);
     }
 }

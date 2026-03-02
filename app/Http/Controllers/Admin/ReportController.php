@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Booking;
+use App\Models\Payment;
+use App\Models\Hall;
+use App\Models\User;
+use Illuminate\Http\Request;
+
+class ReportController extends Controller
+{
+    /**
+     * Display reports dashboard
+     */
+    public function index()
+    {
+        $data = [
+            'total_revenue' => Payment::where('payment_status', 'completed')->sum('amount'),
+            'monthly_revenue' => Payment::where('payment_status', 'completed')
+                ->whereMonth('payment_date', now()->month)
+                ->sum('amount'),
+            'total_bookings' => Booking::count(),
+            'completed_bookings' => Booking::where('booking_status', 'confirmed')->count(),
+            'pending_bookings' => Booking::where('booking_status', 'pending')->count(),
+            'total_halls' => Hall::count(),
+            'occupied_halls' => Booking::where('booking_status', 'confirmed')
+                ->distinct('hall_id')
+                ->count('hall_id'),
+            'total_customers' => User::where('role', 'user')->count(),
+        ];
+
+        return view('admin.reports.index', $data);
+    }
+
+    /**
+     * Generate revenue report
+     */
+    public function revenue()
+    {
+        $revenues = Payment::where('payment_status', 'completed')
+            ->selectRaw('DATE(payment_date) as date, SUM(amount) as total')
+            ->groupBy('date')
+            ->orderBy('date', 'desc')
+            ->paginate(10);
+
+        return view('admin.reports.revenue', compact('revenues'));
+    }
+
+    /**
+     * Generate bookings report
+     */
+    public function bookings()
+    {
+        $bookings = Booking::with(['user', 'hall'])
+            ->orderBy('event_date', 'desc')
+            ->paginate(10);
+
+        return view('admin.reports.bookings', compact('bookings'));
+    }
+
+    /**
+     * Generate halls report
+     */
+    public function halls()
+    {
+        $hallStats = Hall::withCount('bookings')
+            ->with('bookings')
+            ->paginate(10);
+
+        return view('admin.reports.halls', compact('hallStats'));
+    }
+}

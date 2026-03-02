@@ -1,13 +1,13 @@
 @php
-use Illuminate\Support\Facades\Route;
+    use Illuminate\Support\Facades\Route;
 @endphp
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
 
     <!-- ! Hide app brand if navbar-full -->
     <div class="app-brand demo">
-        <a href="{{url('/')}}" class="app-brand-link">
+        <a href="{{ url('/') }}" class="app-brand-link">
             <span class="app-brand-logo demo">@include('_partials.macros')</span>
-            <span class="app-brand-text demo menu-text fw-bold ms-2">{{config('variables.templateName')}}</span>
+            <span class="app-brand-text demo menu-text fw-bold ms-2">{{ config('variables.templateName') }}</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -19,60 +19,103 @@ use Illuminate\Support\Facades\Route;
     <div class="menu-inner-shadow"></div>
 
     <ul class="menu-inner py-1">
-        @foreach ($menuData[0]->menu as $menu)
 
-        {{-- adding active and open class if child is active --}}
-
-        {{-- menu headers --}}
-        @if (isset($menu->menuHeader))
-        <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">{{ __($menu->menuHeader) }}</span>
-        </li>
-        @else
-
-        {{-- active menu method --}}
-        @php
-        $activeClass = null;
-        $currentRouteName = Route::currentRouteName();
-
-        if ($currentRouteName === $menu->slug) {
-        $activeClass = 'active';
-        }
-        elseif (isset($menu->submenu)) {
-        if (gettype($menu->slug) === 'array') {
-        foreach($menu->slug as $slug){
-        if (str_contains($currentRouteName,$slug) and strpos($currentRouteName,$slug) === 0) {
-        $activeClass = 'active open';
-        }
-        }
-        }
-        else{
-        if (str_contains($currentRouteName,$menu->slug) and strpos($currentRouteName,$menu->slug) === 0) {
-        $activeClass = 'active open';
-        }
-        }
-        }
-        @endphp
-
-        {{-- main menu --}}
-        <li class="menu-item {{$activeClass}}">
-            <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}" class="{{ isset($menu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}" @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
-                @isset($menu->icon)
-                <i class="{{ $menu->icon }}"></i>
-                @endisset
-                <div>{{ isset($menu->name) ? __($menu->name) : '' }}</div>
-                @isset($menu->badge)
-                <div class="badge rounded-pill bg-{{ $menu->badge[0] }} text-uppercase ms-auto">{{ $menu->badge[1] }}</div>
-                @endisset
+        {{-- Dashboard --}}
+        <li class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+            <a href="{{ route('admin.dashboard') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div>Dashboard</div>
             </a>
-
-            {{-- submenu --}}
-            @isset($menu->submenu)
-            @include('layouts.sections.menu.submenu',['menu' => $menu->submenu])
-            @endisset
         </li>
-        @endif
-        @endforeach
+
+        {{-- Hall Management --}}
+        <li class="menu-item {{ request()->routeIs('admin.halls.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-buildings"></i>
+                <div>Hall Management</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->routeIs('admin.halls.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.halls.index') }}" class="menu-link">
+                        <div>All Halls</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->routeIs('admin.halls.create') ? 'active' : '' }}">
+                    <a href="{{ route('admin.halls.create') }}" class="menu-link">
+                        <div>Add Hall</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        {{-- Bookings --}}
+        <li class="menu-item {{ request()->routeIs('admin.bookings.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-calendar"></i>
+                <div>Bookings</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->routeIs('admin.bookings.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.bookings.index') }}" class="menu-link">
+                        <div>All Bookings</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->routeIs('admin.bookings.create') ? 'active' : '' }}">
+                    <a href="{{ route('admin.bookings.create') }}" class="menu-link">
+                        <div>New Booking</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        {{-- Customers --}}
+        <li class="menu-item {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.customers.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-user"></i>
+                <div>Customers</div>
+            </a>
+        </li>
+
+        {{-- Payments --}}
+        <li class="menu-item {{ request()->routeIs('admin.payments.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.payments.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-credit-card"></i>
+                <div>Payments</div>
+            </a>
+        </li>
+
+        {{-- Events --}}
+        <li class="menu-item {{ request()->routeIs('admin.events.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.events.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-party"></i>
+                <div>Events</div>
+            </a>
+        </li>
+
+        {{-- Staff --}}
+        <li class="menu-item {{ request()->routeIs('admin.staff.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.staff.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-group"></i>
+                <div>Staff Management</div>
+            </a>
+        </li>
+
+        {{-- Reports --}}
+        <li class="menu-item {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.reports.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-bar-chart"></i>
+                <div>Reports</div>
+            </a>
+        </li>
+
+        {{-- Settings --}}
+        <li class="menu-item {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.settings.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-cog"></i>
+                <div>Settings</div>
+            </a>
+        </li>
+
     </ul>
 
 </aside>
