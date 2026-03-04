@@ -16,10 +16,6 @@ class Booking extends Model
         'event_date',
         'start_time',
         'end_time',
-        'total_amount',
-        'advance_amount',
-        'booking_status',
-        'payment_status',
         'cancellation_reason',
     ];
 
@@ -42,11 +38,6 @@ class Booking extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function payments()
-    {
-        return $this->hasMany(Payment::class);
     }
 
     public function images()

@@ -4,13 +4,11 @@ use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HallController;
 use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingsController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\dashboard\Analytics;
 use App\Http\Controllers\layouts\WithoutMenu;
 use App\Http\Controllers\layouts\WithoutNavbar;
 use App\Http\Controllers\layouts\Fluid;
@@ -84,10 +82,6 @@ Route::middleware(['auth'])
         // Customer Management Routes
         Route::resource('customers', CustomerController::class, ['only' => ['index', 'show', 'destroy']]);
 
-        // Payment Management Routes
-        Route::resource('payments', PaymentController::class, ['only' => ['index', 'show']]);
-        Route::patch('payments/{payment}/status', [PaymentController::class, 'updateStatus'])->name('payments.updateStatus');
-
         // Event Management Routes (booking events)
         Route::resource('events', EventController::class, ['only' => ['index', 'show', 'update']]);
 
@@ -96,7 +90,6 @@ Route::middleware(['auth'])
 
         // Reports Routes
         Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
-        Route::get('reports/revenue', [ReportController::class, 'revenue'])->name('reports.revenue');
         Route::get('reports/bookings', [ReportController::class, 'bookings'])->name('reports.bookings');
         Route::get('reports/halls', [ReportController::class, 'halls'])->name('reports.halls');
 
@@ -111,7 +104,9 @@ Route::middleware(['auth'])
 // ============================================
 // MAIN PAGE ROUTE
 // ============================================
-Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
+Route::get('/', function () {
+    return redirect()->route('login');
+});
 
 // ============================================
 // LAYOUT ROUTES

@@ -10,32 +10,6 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <h6 class="card-title mb-2">Total Revenue</h6>
-                            <h3 class="mb-0">₱{{ number_format($total_revenue, 0) }}</h3>
-                        </div>
-                        <i class="bx bx-trending-up text-success" style="font-size: 2rem;"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h6 class="card-title mb-2">This Month</h6>
-                            <h3 class="mb-0">₱{{ number_format($monthly_revenue, 0) }}</h3>
-                        </div>
-                        <i class="bx bx-calendar text-primary" style="font-size: 2rem;"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
                             <h6 class="card-title mb-2">Total Bookings</h6>
                             <h3 class="mb-0">{{ $total_bookings }}</h3>
                         </div>

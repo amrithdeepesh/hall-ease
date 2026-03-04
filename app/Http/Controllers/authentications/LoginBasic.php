@@ -39,8 +39,8 @@ class LoginBasic extends Controller
             // Regenerate session
             $request->session()->regenerate();
 
-            // Redirect to dashboard
-            return redirect()->intended(route('dashboard-analytics'))
+            // Redirect to admin dashboard
+            return redirect()->intended(route('admin.dashboard'))
                 ->with('success', 'Login successful! Welcome back.');
         }
 

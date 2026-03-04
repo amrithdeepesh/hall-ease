@@ -21,8 +21,8 @@
                         </a>
                     </div>
                     <!-- /Logo -->
-                    <h4 class="mb-1">Adventure starts here 🚀</h4>
-                    <p class="mb-6">Make your app management easy and fun!</p>
+                    <h4 class="mb-1">Welcome to HallEase 🚀</h4>
+                    <p class="mb-6">Manage your event halls efficiently and easily!</p>
 
                     @if ($errors->any())
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">

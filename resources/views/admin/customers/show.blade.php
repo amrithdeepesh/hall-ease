@@ -53,9 +53,6 @@
                             <tr>
                                 <th>Hall</th>
                                 <th>Event Date</th>
-                                <th>Status</th>
-                                <th>Amount</th>
-                                <th>Payment</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -63,21 +60,10 @@
                                 <tr>
                                     <td>{{ $booking->hall->name }}</td>
                                     <td>{{ $booking->event_date->format('M d, Y') }}</td>
-                                    <td>
-                                        <span class="badge bg-{{ $booking->booking_status === 'confirmed' ? 'success' : 'warning' }}">
-                                            {{ ucfirst($booking->booking_status) }}
-                                        </span>
-                                    </td>
-                                    <td>₱{{ number_format($booking->total_amount, 2) }}</td>
-                                    <td>
-                                        <span class="badge bg-{{ $booking->payment_status === 'paid' ? 'success' : 'warning' }}">
-                                            {{ ucfirst($booking->payment_status) }}
-                                        </span>
-                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted">No bookings found</td>
+                                    <td colspan="2" class="text-center text-muted">No bookings found</td>
                                 </tr>
                             @endforelse
                         </tbody>

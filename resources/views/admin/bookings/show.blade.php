@@ -18,7 +18,7 @@
                         </tr>
                         <tr>
                             <td class="text-muted">Customer</td>
-                            <td><strong>{{ $booking->user->name }}</strong></td>
+                            <td><strong>{{ $booking->customer->name }}</strong></td>
                         </tr>
                         <tr>
                             <td class="text-muted">Event Date</td>
@@ -27,26 +27,6 @@
                         <tr>
                             <td class="text-muted">Time</td>
                             <td><strong>{{ $booking->start_time }} - {{ $booking->end_time }}</strong></td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Total Amount</td>
-                            <td><strong>₱{{ number_format($booking->total_amount, 2) }}</strong></td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Booking Status</td>
-                            <td>
-                                <span class="badge bg-{{ $booking->booking_status === 'confirmed' ? 'success' : ($booking->booking_status === 'pending' ? 'warning' : 'danger') }}">
-                                    {{ ucfirst($booking->booking_status) }}
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Payment Status</td>
-                            <td>
-                                <span class="badge bg-{{ $booking->payment_status === 'paid' ? 'success' : 'warning' }}">
-                                    {{ ucfirst($booking->payment_status) }}
-                                </span>
-                            </td>
                         </tr>
                     </table>
                 </div>

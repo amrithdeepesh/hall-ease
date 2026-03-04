@@ -17,10 +17,6 @@ class ReportController extends Controller
     public function index()
     {
         $data = [
-            'total_revenue' => Payment::where('payment_status', 'completed')->sum('amount'),
-            'monthly_revenue' => Payment::where('payment_status', 'completed')
-                ->whereMonth('payment_date', now()->month)
-                ->sum('amount'),
             'total_bookings' => Booking::count(),
             'completed_bookings' => Booking::where('booking_status', 'confirmed')->count(),
             'pending_bookings' => Booking::where('booking_status', 'pending')->count(),
@@ -32,20 +28,6 @@ class ReportController extends Controller
         ];
 
         return view('admin.reports.index', $data);
-    }
-
-    /**
-     * Generate revenue report
-     */
-    public function revenue()
-    {
-        $revenues = Payment::where('payment_status', 'completed')
-            ->selectRaw('DATE(payment_date) as date, SUM(amount) as total')
-            ->groupBy('date')
-            ->orderBy('date', 'desc')
-            ->paginate(10);
-
-        return view('admin.reports.revenue', compact('revenues'));
     }
 
     /**

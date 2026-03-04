@@ -12,7 +12,6 @@ class Hall extends Model
         'name',
         'location',
         'capacity',
-        'price_per_day',
         'description',
         'image',
         'status',

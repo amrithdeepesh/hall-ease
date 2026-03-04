@@ -76,14 +76,6 @@
             </a>
         </li>
 
-        {{-- Payments --}}
-        <li class="menu-item {{ request()->routeIs('admin.payments.*') ? 'active' : '' }}">
-            <a href="{{ route('admin.payments.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-credit-card"></i>
-                <div>Payments</div>
-            </a>
-        </li>
-
         {{-- Events --}}
         <li class="menu-item {{ request()->routeIs('admin.events.*') ? 'active' : '' }}">
             <a href="{{ route('admin.events.index') }}" class="menu-link">

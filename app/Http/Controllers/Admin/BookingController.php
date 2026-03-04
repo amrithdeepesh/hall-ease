@@ -41,17 +41,15 @@ class BookingController extends Controller
     {
         $request->validate([
             'hall_id' => 'required|exists:halls,id',
-            'user_id' => 'required|exists:users,id',
+            'customer_id' => 'required|exists:users,id',
             'event_date' => 'required|date|after_or_equal:today',
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
-            'total_amount' => 'required|numeric',
         ]);
 
         // 🔥 Check availability
         $exists = Booking::where('hall_id', $request->hall_id)
             ->where('event_date', $request->event_date)
-            ->where('booking_status', '!=', 'cancelled')
             ->where(function ($query) use ($request) {
                 $query->whereBetween('start_time', [$request->start_time, $request->end_time])
                     ->orWhereBetween('end_time', [$request->start_time, $request->end_time]);
@@ -64,13 +62,11 @@ class BookingController extends Controller
 
         Booking::create([
             'hall_id' => $request->hall_id,
-            'user_id' => $request->user_id,
+            'customer_id' => $request->customer_id,
+            'created_by' => Auth::id(),
             'event_date' => $request->event_date,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
-            'total_amount' => $request->total_amount,
-            'booking_status' => $request->booking_status ?? 'pending',
-            'payment_status' => $request->payment_status ?? 'unpaid',
         ]);
 
         return redirect()->route('admin.bookings.index')
@@ -82,7 +78,7 @@ class BookingController extends Controller
      */
     public function show(Booking $booking)
     {
-        $booking->load(['hall', 'customer', 'payments']);
+        $booking->load(['hall', 'customer', 'creator']);
         return view('admin.bookings.show', compact('booking'));
     }
 
@@ -108,13 +104,17 @@ class BookingController extends Controller
             'event_date' => 'required|date',
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
-            'total_amount' => 'required|numeric',
-            'advance_amount' => 'nullable|numeric',
-            'booking_status' => 'required',
-            'payment_status' => 'required',
+            'cancellation_reason' => 'nullable|string',
         ]);
 
-        $booking->update($request->all());
+        $booking->update($request->only([
+            'hall_id',
+            'customer_id',
+            'event_date',
+            'start_time',
+            'end_time',
+            'cancellation_reason',
+        ]));
 
         return redirect()
             ->route('admin.bookings.index')
@@ -132,19 +132,18 @@ class BookingController extends Controller
     }
 
     /**
-     * Update booking status (Confirm / Cancel)
+     * Update booking cancellation reason
      */
     public function updateStatus(Request $request, Booking $booking)
     {
         $request->validate([
-            'booking_status' => 'required'
+            'cancellation_reason' => 'nullable|string',
         ]);
 
         $booking->update([
-            'booking_status' => $request->booking_status,
             'cancellation_reason' => $request->cancellation_reason ?? null
         ]);
 
-        return back()->with('success', 'Booking status updated.');
+        return back()->with('success', 'Booking updated.');
     }
 }

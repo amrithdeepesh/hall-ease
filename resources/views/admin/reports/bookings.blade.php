@@ -18,9 +18,6 @@
                                 <th>Hall</th>
                                 <th>Customer</th>
                                 <th>Event Date</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Payment</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -30,17 +27,6 @@
                                     <td>{{ $booking->hall->name }}</td>
                                     <td>{{ $booking->user->name }}</td>
                                     <td>{{ $booking->event_date->format('M d, Y') }}</td>
-                                    <td>₱{{ number_format($booking->total_amount, 2) }}</td>
-                                    <td>
-                                        <span class="badge bg-{{ $booking->booking_status === 'confirmed' ? 'success' : 'warning' }}">
-                                            {{ ucfirst($booking->booking_status) }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-{{ $booking->payment_status === 'paid' ? 'success' : 'warning' }}">
-                                            {{ ucfirst($booking->payment_status) }}
-                                        </span>
-                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

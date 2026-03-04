@@ -11,9 +11,9 @@
       ],
       "submenu": [
         {
-          "url": "/",
-          "name": "Analytics",
-          "slug": "dashboard-analytics"
+          "url": "/admin/dashboard",
+          "name": "Admin Dashboard",
+          "slug": "admin-dashboard"
         },
         {
           "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/dashboard/crm",

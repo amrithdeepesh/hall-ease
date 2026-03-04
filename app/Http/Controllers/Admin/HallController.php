@@ -35,7 +35,6 @@ class HallController extends Controller
             'name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'capacity' => 'required|integer|min:10',
-            'price_per_day' => 'required|numeric|min:0',
             'description' => 'nullable|string',
             'status' => 'in:available,maintenance',
         ]);
@@ -73,7 +72,6 @@ class HallController extends Controller
             'name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'capacity' => 'required|integer|min:10',
-            'price_per_day' => 'required|numeric|min:0',
             'description' => 'nullable|string',
             'status' => 'in:available,maintenance',
         ]);

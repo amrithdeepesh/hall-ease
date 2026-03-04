@@ -11,7 +11,6 @@ return new class extends Migration {
             $table->string('name');
             $table->string('location');
             $table->integer('capacity');
-            $table->decimal('price_per_day', 10, 2);
             $table->text('description')->nullable();
             $table->string('image')->nullable();
             $table->enum('status', ['available', 'maintenance'])->default('available');

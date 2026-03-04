@@ -23,7 +23,7 @@
                         <option value="">Choose Hall</option>
                         @foreach($halls as $hall)
                             <option value="{{ $hall->id }}">
-                                {{ $hall->name }} (₹ {{ $hall->price_per_day }})
+                                {{ $hall->name }}
                             </option>
                         @endforeach
                     </select>

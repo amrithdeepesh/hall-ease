@@ -89,48 +89,6 @@
                            required>
                 </div>
 
-                {{-- Total Amount --}}
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Total Amount</label>
-                    <input type="number"
-                           name="total_amount"
-                           value="{{ $booking->total_amount }}"
-                           class="form-control"
-                           step="0.01"
-                           required>
-                </div>
-
-                {{-- Advance Amount --}}
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Advance Amount</label>
-                    <input type="number"
-                           name="advance_amount"
-                           value="{{ $booking->advance_amount }}"
-                           class="form-control"
-                           step="0.01">
-                </div>
-
-                {{-- Booking Status --}}
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Booking Status</label>
-                    <select name="booking_status" class="form-select" required>
-                        <option value="pending" {{ $booking->booking_status == 'pending' ? 'selected' : '' }}>Pending</option>
-                        <option value="confirmed" {{ $booking->booking_status == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
-                        <option value="completed" {{ $booking->booking_status == 'completed' ? 'selected' : '' }}>Completed</option>
-                        <option value="cancelled" {{ $booking->booking_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                    </select>
-                </div>
-
-                {{-- Payment Status --}}
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Payment Status</label>
-                    <select name="payment_status" class="form-select" required>
-                        <option value="unpaid" {{ $booking->payment_status == 'unpaid' ? 'selected' : '' }}>Unpaid</option>
-                        <option value="partial" {{ $booking->payment_status == 'partial' ? 'selected' : '' }}>Partial</option>
-                        <option value="paid" {{ $booking->payment_status == 'paid' ? 'selected' : '' }}>Paid</option>
-                    </select>
-                </div>
-
                 {{-- Cancellation Reason --}}
                 <div class="col-12 mb-3">
                     <label class="form-label">Cancellation Reason (If Cancelled)</label>

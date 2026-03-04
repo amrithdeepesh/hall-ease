@@ -4,56 +4,30 @@
 
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <div class="row">
-        <div class="col-lg-8 mb-4 order-0">
+    <!-- Welcome Header -->
+    <div class="row mb-4">
+        <div class="col-12">
             <div class="card">
                 <div class="d-flex align-items-end row">
-                    <div class="col-sm-7">
+                    <div class="col-sm-8">
                         <div class="card-body">
-                            <h5 class="card-title text-primary">Welcome to Hall-Ease Admin Dashboard! 👋</h5>
-                            <p class="mb-4">
-                                Manage your event halls, bookings, customers, and payments all in one place.
+                            <h5 class="card-title text-primary mb-3">Welcome to HallEase Admin Dashboard! 👋</h5>
+                            <p class="text-muted mb-4">
+                                Manage your event halls, bookings, and customers all in one place. Get an overview of your key metrics below.
                             </p>
-                            <a href="{{ route('admin.bookings.index') }}" class="btn btn-sm btn-label-primary">View All Bookings</a>
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('admin.bookings.index') }}" class="btn btn-primary btn-sm">
+                                    <i class="bx bx-calendar"></i> View Bookings
+                                </a>
+                                <a href="{{ route('admin.halls.index') }}" class="btn btn-outline-primary btn-sm">
+                                    <i class="bx bx-building"></i> Manage Halls
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-5 text-center text-sm-left">
+                    <div class="col-sm-4 text-center">
                         <div class="card-body pb-0 px-0 px-md-4">
-                            <img src="{{ asset('assets/img/illustrations/man-with-laptop.png') }}" height="140" alt="View Badge User" data-app-dark-img="{{ asset('assets/img/illustrations/man-with-laptop-dark.png') }}" data-app-light-img="{{ asset('assets/img/illustrations/man-with-laptop.png') }}" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-4 order-1">
-            <div class="row">
-                <div class="col-lg-6 col-md-12 col-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="card-info">
-                                    <p class="card-text">Total Revenue</p>
-                                    <span class="h3 d-block">₹{{ number_format($total_revenue, 0) }}</span>
-                                </div>
-                                <div class="card-icon">
-                                    <i class="bx bx-trending-up"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12 col-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="card-info">
-                                    <p class="card-text">Bookings</p>
-                                    <span class="h3 d-block">{{ $total_bookings }}</span>
-                                </div>
-                                <div class="card-icon">
-                                    <i class="bx bx-calendar"></i>
-                                </div>
-                            </div>
+                            <img src="{{ asset('assets/img/illustrations/man-with-laptop.png') }}" height="120" alt="Welcome" data-app-dark-img="{{ asset('assets/img/illustrations/man-with-laptop-dark.png') }}" data-app-light-img="{{ asset('assets/img/illustrations/man-with-laptop.png') }}" />
                         </div>
                     </div>
                 </div>
@@ -61,99 +35,145 @@
         </div>
     </div>
 
-    <div class="row mt-4">
-        <div class="col-md-3 mb-4">
-            <div class="card h-100">
+    <!-- Key Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card h-100 shadow-sm">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
+                    <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="card-title mb-2">Total Halls</h6>
-                            <h3 class="mb-0">{{ $total_halls }}</h3>
+                            <span class="d-block text-muted text-uppercase font-weight-bold" style="font-size: 0.75rem;">Total Halls</span>
+                            <h3 class="mb-0 mt-2">{{ $total_halls }}</h3>
                         </div>
-                        <i class="bx bx-buildings text-primary" style="font-size: 2rem;"></i>
+                        <div class="text-center" style="background: white; padding: 12px 15px; border-radius: 8px;">
+                            <i class="bx bx-buildings" style="font-size: 2.5rem; color: #0d6efd;"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mb-4">
-            <div class="card h-100">
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card h-100 shadow-sm">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
+                    <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="card-title mb-2">Total Users</h6>
-                            <h3 class="mb-0">{{ $total_users }}</h3>
+                            <span class="d-block text-muted text-uppercase font-weight-bold" style="font-size: 0.75rem;">Total Users</span>
+                            <h3 class="mb-0 mt-2">{{ $total_users }}</h3>
                         </div>
-                        <i class="bx bx-user text-success" style="font-size: 2rem;"></i>
+                        <div class="text-center" style="background: white; padding: 12px 15px; border-radius: 8px;">
+                            <i class="bx bx-user-circle" style="font-size: 2.5rem; color: #198754;"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mb-4">
-            <div class="card h-100">
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card h-100 shadow-sm">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
+                    <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="card-title mb-2">Confirmed</h6>
-                            <h3 class="mb-0">{{ $confirmed_bookings }}</h3>
+                            <span class="d-block text-muted text-uppercase font-weight-bold" style="font-size: 0.75rem;">Total Bookings</span>
+                            <h3 class="mb-0 mt-2">{{ $total_bookings }}</h3>
                         </div>
-                        <i class="bx bx-check-circle text-info" style="font-size: 2rem;"></i>
+                        <div class="text-center" style="background: white; padding: 12px 15px; border-radius: 8px;">
+                            <i class="bx bx-calendar-event" style="font-size: 2.5rem; color: #0dcaf0;"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mb-4">
+
+    </div>
+
+    <!-- Quick Actions & Management -->
+    <div class="row">
+        <div class="col-lg-6 mb-4">
             <div class="card h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h6 class="card-title mb-2">Pending</h6>
-                            <h3 class="mb-0">{{ $pending_bookings }}</h3>
-                        </div>
-                        <i class="bx bx-time text-warning" style="font-size: 2rem;"></i>
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="card-title mb-0">
+                        <span class="badge" style="background: white; color: #ffc107; font-size: 2.0rem; display: inline-block; margin-right: 8px;">⚡</span> Quick Actions
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        <a href="{{ route('admin.halls.create') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center border-0">
+                            <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center;"><i class="bx bx-plus-circle text-primary" style="font-size: 1.3rem;"></i></span>
+                            <div>
+                                <div class="fw-bold">Add New Hall</div>
+                                <small class="text-muted">Create a new event hall</small>
+                            </div>
+                        </a>
+                        <a href="{{ route('admin.bookings.create') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center border-0">
+                            <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center;"><i class="bx bx-plus-circle text-success" style="font-size: 1.3rem;"></i></span>
+                            <div>
+                                <div class="fw-bold">Create Booking</div>
+                                <small class="text-muted">Book an event for a customer</small>
+                            </div>
+                        </a>
+                        <a href="{{ route('admin.staff.create') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center border-0">
+                            <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center;"><i class="bx bx-plus-circle text-info" style="font-size: 1.3rem;"></i></span>
+                            <div>
+                                <div class="fw-bold">Add Staff Member</div>
+                                <small class="text-muted">Manage staff</small>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="card-title mb-0">
+                        <span class="badge" style="background: white; color: #0dcaf0; font-size: 2.0rem; display: inline-block; margin-right: 8px;">⚙️</span> Management
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        <a href="{{ route('admin.halls.index') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center justify-content-between border-0">
+                            <div class="d-flex align-items-center">
+                                <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 12px;"><i class="bx bx-building text-primary" style="font-size: 1.3rem;"></i></span>
+                                <div>
+                                    <div class="fw-bold">All Halls</div>
+                                    <small class="text-muted">View & manage event halls</small>
+                                </div>
+                            </div>
+                            <i class="bx bx-chevron-right text-muted"></i>
+                        </a>
+                        <a href="{{ route('admin.customers.index') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center justify-content-between border-0">
+                            <div class="d-flex align-items-center">
+                                <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 12px;"><i class="bx bx-user text-success" style="font-size: 1.3rem;"></i></span>
+                                <div>
+                                    <div class="fw-bold">Customers</div>
+                                    <small class="text-muted">Manage customer accounts</small>
+                                </div>
+                            </div>
+                            <i class="bx bx-chevron-right text-muted"></i>
+                        </a>
+                        <a href="{{ route('admin.reports.index') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center justify-content-between border-0">
+                            <div class="d-flex align-items-center">
+                                <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 12px;"><i class="bx bx-bar-chart text-info" style="font-size: 1.3rem;"></i></span>
+                                <div>
+                                    <div class="fw-bold">Reports</div>
+                                    <small class="text-muted">View analytics & reports</small>
+                                </div>
+                            </div>
+                            <i class="bx bx-chevron-right text-muted"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row mt-4">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title">Quick Actions</h5>
-                </div>
-                <div class="card-body">
-                    <div class="list-group">
-                        <a href="{{ route('admin.halls.create') }}" class="list-group-item list-group-item-action">
-                            <i class="bx bx-plus"></i> Add New Hall
-                        </a>
-                        <a href="{{ route('admin.bookings.create') }}" class="list-group-item list-group-item-action">
-                            <i class="bx bx-plus"></i> Create New Booking
-                        </a>
-                        <a href="{{ route('admin.staff.create') }}" class="list-group-item list-group-item-action">
-                            <i class="bx bx-plus"></i> Add Staff Member
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title">Manage</h5>
-                </div>
-                <div class="card-body">
-                    <div class="list-group">
-                        <a href="{{ route('admin.halls.index') }}" class="list-group-item list-group-item-action">
-                            <i class="bx bx-building"></i> All Halls
-                        </a>
-                        <a href="{{ route('admin.customers.index') }}" class="list-group-item list-group-item-action">
-                            <i class="bx bx-user"></i> Customers
-                        </a>
-                        <a href="{{ route('admin.reports.index') }}" class="list-group-item list-group-item-action">
-                            <i class="bx bx-bar-chart"></i> Reports
-                        </a>
-                    </div>
+    <!-- Additional Info -->
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-info d-flex align-items-center" role="alert">
+                <i class="bx bx-info-circle me-2" style="font-size: 1.3rem;"></i>
+                <div>
+                    <strong>Pro Tip:</strong> Use the menu on the left to access all features and manage your hall business efficiently!
                 </div>
             </div>
         </div>

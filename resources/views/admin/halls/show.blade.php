@@ -25,10 +25,6 @@
                             <td><strong>{{ $hall->capacity }} persons</strong></td>
                         </tr>
                         <tr>
-                            <td class="text-muted">Price per Day</td>
-                            <td><strong>₱{{ number_format($hall->price_per_day, 2) }}</strong></td>
-                        </tr>
-                        <tr>
                             <td class="text-muted">Status</td>
                             <td>
                                 <span class="badge bg-{{ $hall->status === 'available' ? 'success' : 'warning' }}">

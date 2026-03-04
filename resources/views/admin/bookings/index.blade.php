@@ -33,9 +33,6 @@
                             <th>Customer</th>
                             <th>Date</th>
                             <th>Time</th>
-                            <th>Total</th>
-                            <th>Booking Status</th>
-                            <th>Payment</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -49,30 +46,6 @@
                                 <td>{{ $booking->event_date }}</td>
                                 <td>
                                     {{ $booking->start_time }} - {{ $booking->end_time }}
-                                </td>
-                                <td>₹ {{ number_format($booking->total_amount, 2) }}</td>
-
-                                {{-- Booking Status Badge --}}
-                                <td>
-                                    <span
-                                        class="badge 
-                                    @if ($booking->booking_status == 'confirmed') bg-success
-                                    @elseif($booking->booking_status == 'pending') bg-warning
-                                    @elseif($booking->booking_status == 'cancelled') bg-danger
-                                    @else bg-info @endif">
-                                        {{ ucfirst($booking->booking_status) }}
-                                    </span>
-                                </td>
-
-                                {{-- Payment Status --}}
-                                <td>
-                                    <span
-                                        class="badge 
-                                    @if ($booking->payment_status == 'paid') bg-success
-                                    @elseif($booking->payment_status == 'partial') bg-info
-                                    @else bg-danger @endif">
-                                        {{ ucfirst($booking->payment_status) }}
-                                    </span>
                                 </td>
 
                                 <td>

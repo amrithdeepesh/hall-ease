@@ -18,8 +18,6 @@
                                 <th>Hall</th>
                                 <th>Customer</th>
                                 <th>Time</th>
-                                <th>Status</th>
-                                <th>Payment</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -30,16 +28,6 @@
                                     <td>{{ $event->hall->name }}</td>
                                     <td>{{ $event->user->name }}</td>
                                     <td>{{ $event->start_time }} - {{ $event->end_time }}</td>
-                                    <td>
-                                        <span class="badge bg-{{ $event->booking_status === 'confirmed' ? 'success' : ($event->booking_status === 'pending' ? 'warning' : 'danger') }}">
-                                            {{ ucfirst($event->booking_status) }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-{{ $event->payment_status === 'paid' ? 'success' : 'warning' }}">
-                                            {{ ucfirst($event->payment_status) }}
-                                        </span>
-                                    </td>
                                     <td>
                                         <a href="{{ route('admin.events.show', $event) }}" class="btn btn-sm btn-info">View</a>
                                     </td>

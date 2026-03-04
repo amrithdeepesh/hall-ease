@@ -20,7 +20,6 @@
                                     <th>Name</th>
                                     <th>Location</th>
                                     <th>Capacity</th>
-                                    <th>Price/Day</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -31,7 +30,6 @@
                                         <td>{{ $hall->name }}</td>
                                         <td>{{ $hall->location }}</td>
                                         <td>{{ $hall->capacity }} persons</td>
-                                        <td>₱{{ number_format($hall->price_per_day, 0) }}</td>
                                         <td>
                                             <span
                                                 class="badge bg-{{ $hall->status === 'available' ? 'success' : 'warning' }}">

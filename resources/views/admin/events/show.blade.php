@@ -32,26 +32,6 @@
                             <td class="text-muted">Time</td>
                             <td><strong>{{ $event->start_time }} - {{ $event->end_time }}</strong></td>
                         </tr>
-                        <tr>
-                            <td class="text-muted">Total Amount</td>
-                            <td><strong>₱{{ number_format($event->total_amount, 2) }}</strong></td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Booking Status</td>
-                            <td>
-                                <span class="badge bg-{{ $event->booking_status === 'confirmed' ? 'success' : ($event->booking_status === 'pending' ? 'warning' : 'danger') }}">
-                                    {{ ucfirst($event->booking_status) }}
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Payment Status</td>
-                            <td>
-                                <span class="badge bg-{{ $event->payment_status === 'paid' ? 'success' : 'warning' }}">
-                                    {{ ucfirst($event->payment_status) }}
-                                </span>
-                            </td>
-                        </tr>
                     </table>
                 </div>
                 <div class="card-footer">
