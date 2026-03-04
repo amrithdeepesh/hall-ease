@@ -17,8 +17,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-        ]);
+            'password' => bcrypt('password'),        ]);
         // Seed in the correct order based on dependencies
         // $this->call([
         //     UserSeeder::class,
