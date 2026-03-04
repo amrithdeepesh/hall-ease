@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-sm-4 text-center">
                         <div class="card-body pb-0 px-0 px-md-4">
-                            <img src="{{ asset('assets/img/illustrations/man-with-laptop.png') }}" height="120" alt="Welcome" data-app-dark-img="{{ asset('assets/img/illustrations/man-with-laptop-dark.png') }}" data-app-light-img="{{ asset('assets/img/illustrations/man-with-laptop.png') }}" />
+                            <img src="{{ asset('assets/img/illustrations/man-with-laptop.png') }}" alt="Welcome" data-app-dark-img="{{ asset('assets/img/illustrations/man-with-laptop-dark.png') }}" data-app-light-img="{{ asset('assets/img/illustrations/man-with-laptop.png') }}" />
                         </div>
                     </div>
                 </div>
@@ -82,6 +82,21 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="d-block text-muted text-uppercase font-weight-bold" style="font-size: 0.75rem;">Total Events</span>
+                            <h3 class="mb-0 mt-2">{{ $total_events }}</h3>
+                        </div>
+                        <div class="text-center" style="background: white; padding: 12px 15px; border-radius: 8px;">
+                            <i class="bx bx-party" style="font-size: 2.5rem; color: #6f42c1;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 
@@ -91,7 +106,7 @@
             <div class="card h-100">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h5 class="card-title mb-0">
-                        <span class="badge" style="background: white; color: #ffc107; font-size: 2.0rem; display: inline-block; margin-right: 8px;">⚡</span> Quick Actions
+                        <span class="badge" style="background: white; color: #ffc107; font-size: 2.0rem; display: inline-block; margin-right: 8px;">⚡</span><span style="font-size: 2.0rem; font-weight: 700;">Quick Actions</span>
                     </h5>
                 </div>
                 <div class="card-body p-0">
@@ -126,7 +141,7 @@
             <div class="card h-100">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h5 class="card-title mb-0">
-                        <span class="badge" style="background: white; color: #0dcaf0; font-size: 2.0rem; display: inline-block; margin-right: 8px;">⚙️</span> Management
+                        <span class="badge" style="background: white; color: #0dcaf0; font-size: 2.0rem; display: inline-block; margin-right: 8px;">⚙️</span><span style="font-size: 2.0rem; font-weight: 700;">Management</span>
                     </h5>
                 </div>
                 <div class="card-body p-0">
@@ -151,12 +166,12 @@
                             </div>
                             <i class="bx bx-chevron-right text-muted"></i>
                         </a>
-                        <a href="{{ route('admin.reports.index') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center justify-content-between border-0">
+                        <a href="{{ route('admin.bookings.index') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center justify-content-between border-0">
                             <div class="d-flex align-items-center">
-                                <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 12px;"><i class="bx bx-bar-chart text-info" style="font-size: 1.3rem;"></i></span>
+                                <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 12px;"><i class="bx bx-calendar text-info" style="font-size: 1.3rem;"></i></span>
                                 <div>
-                                    <div class="fw-bold">Reports</div>
-                                    <small class="text-muted">View analytics & reports</small>
+                                    <div class="fw-bold">Bookings</div>
+                                    <small class="text-muted">View & manage bookings</small>
                                 </div>
                             </div>
                             <i class="bx bx-chevron-right text-muted"></i>
@@ -180,3 +195,4 @@
     </div>
 </div>
 @endsection
+

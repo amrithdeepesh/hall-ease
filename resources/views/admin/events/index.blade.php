@@ -22,7 +22,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($events as $event)
+                            @forelse ($events as $event)
                                 <tr>
                                     <td>{{ $event->event_date->format('M d, Y') }}</td>
                                     <td>{{ $event->hall->name }}</td>
@@ -32,7 +32,11 @@
                                         <a href="{{ route('admin.events.show', $event) }}" class="btn btn-sm btn-info">View</a>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted py-4">No upcoming events</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

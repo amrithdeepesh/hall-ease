@@ -21,7 +21,7 @@
     <ul class="menu-inner py-1">
 
         {{-- Dashboard --}}
-        <li class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+        <li class="menu-item mb-2 {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
             <a href="{{ route('admin.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div>Dashboard</div>
@@ -29,18 +29,18 @@
         </li>
 
         {{-- Hall Management --}}
-        <li class="menu-item {{ request()->routeIs('admin.halls.*') ? 'active open' : '' }}">
+        <li class="menu-item mb-2 {{ request()->routeIs('admin.halls.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-buildings"></i>
                 <div>Hall Management</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item {{ request()->routeIs('admin.halls.index') ? 'active' : '' }}">
+                <li class="menu-item mb-2 {{ request()->routeIs('admin.halls.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.halls.index') }}" class="menu-link">
                         <div>All Halls</div>
                     </a>
                 </li>
-                <li class="menu-item {{ request()->routeIs('admin.halls.create') ? 'active' : '' }}">
+                <li class="menu-item mb-2 {{ request()->routeIs('admin.halls.create') ? 'active' : '' }}">
                     <a href="{{ route('admin.halls.create') }}" class="menu-link">
                         <div>Add Hall</div>
                     </a>
@@ -49,18 +49,18 @@
         </li>
 
         {{-- Bookings --}}
-        <li class="menu-item {{ request()->routeIs('admin.bookings.*') ? 'active open' : '' }}">
+        <li class="menu-item mb-2 {{ request()->routeIs('admin.bookings.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div>Bookings</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item {{ request()->routeIs('admin.bookings.index') ? 'active' : '' }}">
+                <li class="menu-item mb-2 {{ request()->routeIs('admin.bookings.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.bookings.index') }}" class="menu-link">
                         <div>All Bookings</div>
                     </a>
                 </li>
-                <li class="menu-item {{ request()->routeIs('admin.bookings.create') ? 'active' : '' }}">
+                <li class="menu-item mb-2 {{ request()->routeIs('admin.bookings.create') ? 'active' : '' }}">
                     <a href="{{ route('admin.bookings.create') }}" class="menu-link">
                         <div>New Booking</div>
                     </a>
@@ -68,16 +68,8 @@
             </ul>
         </li>
 
-        {{-- Customers --}}
-        <li class="menu-item {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
-            <a href="{{ route('admin.customers.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-user"></i>
-                <div>Customers</div>
-            </a>
-        </li>
-
         {{-- Events --}}
-        <li class="menu-item {{ request()->routeIs('admin.events.*') ? 'active' : '' }}">
+        <li class="menu-item mb-2 {{ request()->routeIs('admin.events.*') ? 'active' : '' }}">
             <a href="{{ route('admin.events.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-party"></i>
                 <div>Events</div>
@@ -85,23 +77,15 @@
         </li>
 
         {{-- Staff --}}
-        <li class="menu-item {{ request()->routeIs('admin.staff.*') ? 'active' : '' }}">
+        <li class="menu-item mb-2 {{ request()->routeIs('admin.staff.*') ? 'active' : '' }}">
             <a href="{{ route('admin.staff.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-group"></i>
                 <div>Staff Management</div>
             </a>
         </li>
 
-        {{-- Reports --}}
-        <li class="menu-item {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
-            <a href="{{ route('admin.reports.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-bar-chart"></i>
-                <div>Reports</div>
-            </a>
-        </li>
-
         {{-- Settings --}}
-        <li class="menu-item {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+        <li class="menu-item mb-2 {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
             <a href="{{ route('admin.settings.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-cog"></i>
                 <div>Settings</div>
@@ -111,3 +95,4 @@
     </ul>
 
 </aside>
+

@@ -19,6 +19,7 @@ class DashboardController extends Controller
             'total_users' => User::count(),
             'total_halls' => Hall::count(),
             'total_bookings' => Booking::count(),
+            'total_events' => Booking::count(),
         ];
 
         return view('admin.dashboard', $data);

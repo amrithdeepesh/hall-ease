@@ -13,6 +13,10 @@ $isFlex = $isFlex ?? false;
 $isFooter = $isFooter ?? true;
 $customizerHidden = $customizerHidden ?? '';
 
+if (request()->is('admin/*')) {
+    $isNavbar = false;
+}
+
 /* HTML Classes */
 $navbarDetached = 'navbar-detached';
 $menuFixed = isset($configData['menuFixed']) ? $configData['menuFixed'] : '';
@@ -48,7 +52,6 @@ $container = ($container ?? 'container-xxl');
             @include('layouts/sections/navbar/navbar')
             @endif
             <!-- END: Navbar-->
-
 
             <!-- Content wrapper -->
             <div class="content-wrapper">

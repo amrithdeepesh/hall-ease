@@ -1,6 +1,7 @@
 @php
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+$userInitial = strtoupper(substr(Auth::user()->name ?? 'U', 0, 1));
 @endphp
 
 <!--  Brand demo (display only for navbar-full and hide on below xl) -->
@@ -23,14 +24,6 @@ use Illuminate\Support\Facades\Route;
 @endif
 
 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-    <!-- Search -->
-    <div class="navbar-nav align-items-center">
-        <div class="nav-item d-flex align-items-center">
-            <i class="icon-base bx bx-search icon-md"></i>
-            <input type="text" class="form-control border-0 shadow-none ps-1 ps-sm-2" placeholder="Search..." aria-label="Search...">
-        </div>
-    </div>
-    <!-- /Search -->
     <ul class="navbar-nav flex-row align-items-center ms-auto">
         <!-- Place this tag where you want the button to render. -->
         <li class="nav-item lh-1 me-4">
@@ -41,7 +34,9 @@ use Illuminate\Support\Facades\Route;
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                 <div class="avatar avatar-online">
-                    <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle">
+                    <span class="w-px-40 h-px-40 rounded-circle d-flex align-items-center justify-content-center fw-semibold text-white bg-primary">
+                        {{ $userInitial }}
+                    </span>
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -50,12 +45,14 @@ use Illuminate\Support\Facades\Route;
                         <div class="d-flex">
                             <div class="flex-shrink-0 me-3">
                                 <div class="avatar avatar-online">
-                                    <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle">
+                                    <span class="w-px-40 h-px-40 rounded-circle d-flex align-items-center justify-content-center fw-semibold text-white bg-primary">
+                                        {{ $userInitial }}
+                                    </span>
                                 </div>
                             </div>
                             <div class="flex-grow-1">
-                                <h6 class="mb-0">John Doe</h6>
-                                <small class="text-muted">Admin</small>
+                                <h6 class="mb-0">{{ Auth::user()->name ?? 'User' }}</h6>
+                                <small class="text-muted">{{ ucfirst(Auth::user()->role ?? 'user') }}</small>
                             </div>
                         </div>
                     </a>
@@ -74,20 +71,15 @@ use Illuminate\Support\Facades\Route;
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="javascript:void(0);">
-                        <span class="d-flex align-items-center align-middle">
-                            <i class="flex-shrink-0 icon-base bx bx-credit-card icon-md me-3"></i><span class="flex-grow-1 align-middle">Billing Plan</span>
-                            <span class="flex-shrink-0 badge rounded-pill bg-danger">4</span>
-                        </span>
-                    </a>
-                </li>
-                <li>
                     <div class="dropdown-divider my-1"></div>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="javascript:void(0);">
-                        <i class="icon-base bx bx-power-off icon-md me-3"></i><span>Log Out</span>
-                    </a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="dropdown-item border-0 bg-transparent w-100 text-start">
+                            <i class="icon-base bx bx-power-off icon-md me-3"></i><span>Log Out</span>
+                        </button>
+                    </form>
                 </li>
             </ul>
         </li>

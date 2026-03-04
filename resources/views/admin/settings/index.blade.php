@@ -23,22 +23,11 @@
                 <div class="card-header">
                     <h5 class="card-title">General Settings</h5>
                 </div>
-                <form action="{{ route('admin.settings.update') }}" method="POST">
-                    @csrf
-                    <div class="card-body">
-                        <div class="form-group mb-3">
-                            <label for="app_name" class="form-label">Application Name</label>
-                            <input type="text" class="form-control" id="app_name" name="app_name" value="{{ $settings['app_name'] ?? 'Hall-Ease' }}" />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="app_email" class="form-label">Support Email</label>
-                            <input type="email" class="form-control" id="app_email" name="app_email" value="{{ $settings['app_email'] ?? '' }}" />
-                        </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        General settings management coming soon.
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Save Settings</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
