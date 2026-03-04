@@ -76,6 +76,19 @@
             </a>
         </li>
 
+        {{-- Notifications --}}
+        <li class="menu-item mb-2 {{ request()->routeIs('admin.notifications.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.notifications.index') }}" class="menu-link d-flex justify-content-between align-items-center">
+                <span>
+                    <i class="menu-icon tf-icons bx bx-bell"></i>
+                    Notifications
+                </span>
+                @if(($admin_notification_count ?? 0) > 0)
+                    <span class="badge bg-danger rounded-pill">{{ $admin_notification_count }}</span>
+                @endif
+            </a>
+        </li>
+
         {{-- Staff --}}
         <li class="menu-item mb-2 {{ request()->routeIs('admin.staff.*') ? 'active' : '' }}">
             <a href="{{ route('admin.staff.index') }}" class="menu-link">
@@ -95,4 +108,3 @@
     </ul>
 
 </aside>
-

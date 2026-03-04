@@ -14,27 +14,29 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
+                                <th>Event Name</th>
                                 <th>Event Date</th>
-                                <th>Hall</th>
-                                <th>Customer</th>
                                 <th>Time</th>
+                                <th>Hall</th>
+                                <th>Staff</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($events as $event)
                                 <tr>
+                                    <td>{{ $event->event_name ?? 'N/A' }}</td>
                                     <td>{{ $event->event_date->format('M d, Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($event->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($event->end_time)->format('H:i') }}</td>
                                     <td>{{ $event->hall->name }}</td>
-                                    <td>{{ $event->user->name }}</td>
-                                    <td>{{ $event->start_time }} - {{ $event->end_time }}</td>
+                                    <td>{{ optional($event->customer)->name ?? optional($event->user)->name ?? 'N/A' }}</td>
                                     <td>
                                         <a href="{{ route('admin.events.show', $event) }}" class="btn btn-sm btn-info">View</a>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">No upcoming events</td>
+                                    <td colspan="6" class="text-center text-muted py-4">No upcoming events</td>
                                 </tr>
                             @endforelse
                         </tbody>

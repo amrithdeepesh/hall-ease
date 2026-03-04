@@ -10,6 +10,7 @@ class Hall extends Model
 
     protected $fillable = [
         'name',
+        'campus_name',
         'location',
         'capacity',
         'description',

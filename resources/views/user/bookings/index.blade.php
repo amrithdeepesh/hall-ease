@@ -1,45 +1,33 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Bookings')
+@section('title', 'My Bookings')
 
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    @if (session('success'))
+    @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    @if (session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
-
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="mb-0">Bookings</h4>
-        <a href="{{ route('admin.bookings.create') }}" class="btn btn-primary">
-            <i class="bx bx-plus"></i> Add Booking
+        <h5 class="mb-0">My Hall Bookings</h5>
+        <a href="{{ route('user.bookings.create') }}" class="btn btn-primary">
+            <i class="bx bx-plus"></i> New Booking
         </a>
     </div>
 
     @php
-        $renderRows = function ($bookings, $isCancelled = false) {
+        $renderRows = function ($bookings, $showCancellationReason = false) {
             foreach ($bookings as $booking) {
                 echo '<tr>';
                 echo '<td>' . e($booking->id) . '</td>';
                 echo '<td>' . e(optional($booking->hall)->name ?? 'N/A') . '</td>';
-                echo '<td>' . e(optional($booking->customer)->name ?? optional($booking->user)->name ?? 'N/A') . '</td>';
+                echo '<td>' . e($booking->event_name ?? 'N/A') . '</td>';
                 echo '<td>' . e(optional($booking->event_date)->format('M d, Y')) . '</td>';
                 echo '<td>' . e(\Carbon\Carbon::parse($booking->start_time)->format('H:i')) . ' - ' . e(\Carbon\Carbon::parse($booking->end_time)->format('H:i')) . '</td>';
-                if ($isCancelled) {
+                if ($showCancellationReason) {
                     echo '<td>' . e($booking->cancellation_reason ?? '-') . '</td>';
                 }
-                echo '<td>';
-                echo '<a href="' . e(route('admin.bookings.show', $booking->id)) . '" class="btn btn-sm btn-info me-1"><i class="bx bx-show"></i></a>';
-                echo '<a href="' . e(route('admin.bookings.edit', $booking->id)) . '" class="btn btn-sm btn-warning me-1"><i class="bx bx-edit"></i></a>';
-                echo '<form action="' . e(route('admin.bookings.destroy', $booking->id)) . '" method="POST" class="d-inline">';
-                echo csrf_field();
-                echo method_field('DELETE');
-                echo '<button class="btn btn-sm btn-danger" onclick="return confirm(\'Delete this booking?\')"><i class="bx bx-trash"></i></button>';
-                echo '</form>';
-                echo '</td>';
+                echo '<td>' . e(optional($booking->created_at)->format('M d, Y h:i A')) . '</td>';
                 echo '</tr>';
             }
         };
@@ -57,10 +45,10 @@
                         <tr>
                             <th>#</th>
                             <th>Hall</th>
-                            <th>Staff</th>
+                            <th>Event Name</th>
                             <th>Date</th>
                             <th>Time</th>
-                            <th>Actions</th>
+                            <th>Created On</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -89,10 +77,10 @@
                         <tr>
                             <th>#</th>
                             <th>Hall</th>
-                            <th>Staff</th>
+                            <th>Event Name</th>
                             <th>Date</th>
                             <th>Time</th>
-                            <th>Actions</th>
+                            <th>Created On</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -121,11 +109,11 @@
                         <tr>
                             <th>#</th>
                             <th>Hall</th>
-                            <th>Staff</th>
+                            <th>Event Name</th>
                             <th>Date</th>
                             <th>Time</th>
                             <th>Cancellation Reason</th>
-                            <th>Actions</th>
+                            <th>Created On</th>
                         </tr>
                     </thead>
                     <tbody>

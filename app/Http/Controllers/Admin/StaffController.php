@@ -14,7 +14,10 @@ class StaffController extends Controller
      */
     public function index()
     {
-        $staff = User::where('role', 'admin')->paginate(10);
+        $staff = User::whereIn('role', ['admin', 'user'])
+            ->latest()
+            ->paginate(10);
+
         return view('admin.staff.index', compact('staff'));
     }
 
@@ -24,6 +27,14 @@ class StaffController extends Controller
     public function create()
     {
         return view('admin.staff.create');
+    }
+
+    /**
+     * Show the form for creating a new user account.
+     */
+    public function createUser()
+    {
+        return view('admin.staff.create-user');
     }
 
     /**
@@ -50,6 +61,32 @@ class StaffController extends Controller
         return redirect()
             ->route('admin.staff.index')
             ->with('success', 'Staff member added successfully!');
+    }
+
+    /**
+     * Store a newly created user account.
+     */
+    public function storeUser(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'nullable|string|max:20',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'] ?? null,
+            'password' => Hash::make($validated['password']),
+            'role' => 'user',
+            'email_verified_at' => now(),
+        ]);
+
+        return redirect()
+            ->route('admin.staff.index')
+            ->with('success', 'User account created successfully!');
     }
 
     /**

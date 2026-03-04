@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->dropColumn('advance_amount');
-        });
+        if (Schema::hasColumn('bookings', 'advance_amount')) {
+            Schema::table('bookings', function (Blueprint $table) {
+                $table->dropColumn('advance_amount');
+            });
+        }
     }
 
     /**
@@ -21,8 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->decimal('advance_amount', 10, 2)->default(0)->after('end_time');
-        });
+        if (!Schema::hasColumn('bookings', 'advance_amount')) {
+            Schema::table('bookings', function (Blueprint $table) {
+                $table->decimal('advance_amount', 10, 2)->default(0)->after('end_time');
+            });
+        }
     }
 };

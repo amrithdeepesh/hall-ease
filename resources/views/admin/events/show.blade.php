@@ -21,8 +21,12 @@
                             <td><strong>{{ $event->hall->name }}</strong></td>
                         </tr>
                         <tr>
-                            <td class="text-muted">Customer</td>
-                            <td><strong>{{ $event->user->name }}</strong></td>
+                            <td class="text-muted">Staff</td>
+                            <td><strong>{{ optional($event->customer)->name ?? optional($event->user)->name ?? 'N/A' }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Event Name</td>
+                            <td><strong>{{ $event->event_name ?? 'N/A' }}</strong></td>
                         </tr>
                         <tr>
                             <td class="text-muted">Event Date</td>
@@ -30,7 +34,7 @@
                         </tr>
                         <tr>
                             <td class="text-muted">Time</td>
-                            <td><strong>{{ $event->start_time }} - {{ $event->end_time }}</strong></td>
+                            <td><strong>{{ \Carbon\Carbon::parse($event->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($event->end_time)->format('H:i') }}</strong></td>
                         </tr>
                     </table>
                 </div>

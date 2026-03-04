@@ -22,7 +22,21 @@
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="location" class="form-label">Location *</label>
+                            <label for="campus_name" class="form-label">Campus Name *</label>
+                            <select class="form-control @error('campus_name') is-invalid @enderror" id="campus_name" name="campus_name" required>
+                                <option value="">Select Campus</option>
+                                <option value="Main Campus" {{ old('campus_name') === 'Main Campus' ? 'selected' : '' }}>Main Campus</option>
+                                <option value="AIMT Campus" {{ old('campus_name') === 'AIMT Campus' ? 'selected' : '' }}>AIMT Campus</option>
+                                <option value="Engineering Campus" {{ old('campus_name') === 'Engineering Campus' ? 'selected' : '' }}>Engineering Campus</option>
+                                <option value="Capitanio Campus" {{ old('campus_name') === 'Capitanio Campus' ? 'selected' : '' }}>Capitanio Campus</option>
+                            </select>
+                            @error('campus_name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="location" class="form-label">Block *</label>
                             <input type="text" class="form-control @error('location') is-invalid @enderror" id="location" name="location" value="{{ old('location') }}" required />
                             @error('location')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -55,6 +69,23 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label">Hall Images</label>
+                            <div id="hall-images-container">
+                                <input type="file" class="form-control mb-2 @error('hall_images') is-invalid @enderror @error('hall_images.*') is-invalid @enderror" name="hall_images[]" accept=".jpg,.jpeg,.png,.webp,.heic,.heif" />
+                            </div>
+                            <button type="button" id="add-hall-image-input" class="btn btn-sm btn-outline-primary mt-2">
+                                <i class="bx bx-plus"></i> Add Another Image
+                            </button>
+                            <small class="text-muted">You can select up to 20 images (JPG, PNG, WEBP, HEIC, HEIF up to 10MB each).</small>
+                            @error('hall_images')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                            @error('hall_images.*')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                     <div class="card-footer">
                         <a href="{{ route('admin.halls.index') }}" class="btn btn-secondary">Cancel</a>
@@ -65,4 +96,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const addButton = document.getElementById('add-hall-image-input');
+        const container = document.getElementById('hall-images-container');
+
+        addButton.addEventListener('click', function () {
+            const inputs = container.querySelectorAll('input[type="file"]').length;
+            if (inputs >= 20) return;
+
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.name = 'hall_images[]';
+            input.accept = '.jpg,.jpeg,.png,.webp,.heic,.heif';
+            input.className = 'form-control mb-2';
+            container.appendChild(input);
+        });
+    });
+</script>
 @endsection

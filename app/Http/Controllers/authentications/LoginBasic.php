@@ -39,8 +39,10 @@ class LoginBasic extends Controller
             // Regenerate session
             $request->session()->regenerate();
 
-            // Redirect to admin dashboard
-            return redirect()->intended(route('admin.dashboard'))
+            $dashboardRoute = Auth::user()->isAdmin() ? 'admin.dashboard' : 'user.dashboard';
+
+            // Redirect to role-specific dashboard
+            return redirect()->intended(route($dashboardRoute))
                 ->with('success', 'Login successful! Welcome back.');
         }
 

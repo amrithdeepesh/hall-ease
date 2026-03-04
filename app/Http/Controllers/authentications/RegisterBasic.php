@@ -45,6 +45,7 @@ class RegisterBasic extends Controller
             $user = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
+                'phone' => $validated['phone'] ?? null,
                 'password' => Hash::make($validated['password']),
                 'role' => 'user', // Default role
                 'email_verified_at' => now(),
@@ -53,10 +54,12 @@ class RegisterBasic extends Controller
             // Auto login after registration
             Auth::login($user);
 
-            // Redirect to admin dashboard
-            return redirect()->route('admin.dashboard')
+            // Redirect to user dashboard
+            return redirect()->route('user.dashboard')
                 ->with('success', 'Registration successful! Welcome to HallEase.');
         } catch (\Exception $e) {
+            report($e);
+
             return back()
                 ->withInput($request->only('name', 'email', 'phone'))
                 ->with('error', 'An error occurred during registration. Please try again.');

@@ -16,7 +16,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Hall</th>
-                                <th>Customer</th>
+                                <th>Staff</th>
                                 <th>Event Date</th>
                             </tr>
                         </thead>
@@ -25,7 +25,7 @@
                                 <tr>
                                     <td>#{{ $booking->id }}</td>
                                     <td>{{ $booking->hall->name }}</td>
-                                    <td>{{ $booking->user->name }}</td>
+                                    <td>{{ optional($booking->customer)->name ?? optional($booking->user)->name ?? 'N/A' }}</td>
                                     <td>{{ $booking->event_date->format('M d, Y') }}</td>
                                 </tr>
                             @endforeach

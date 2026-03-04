@@ -12,10 +12,21 @@ class Booking extends Model
     protected $fillable = [
         'hall_id',
         'customer_id',
+        'user_id',
         'created_by',
         'event_date',
         'start_time',
         'end_time',
+        'event_name',
+        'event_department',
+        'event_type',
+        'coordinator_name',
+        'coordinator_phone',
+        'coordinator_department',
+        'coordinator_email',
+        'coordinator_emergency_number',
+        'media_requirements',
+        'media_requirements_other',
         'cancellation_reason',
     ];
 
@@ -23,6 +34,7 @@ class Booking extends Model
         'event_date' => 'date',
         'start_time' => 'datetime:H:i',
         'end_time' => 'datetime:H:i',
+        'media_requirements' => 'array',
     ];
 
     public function hall()
@@ -33,6 +45,11 @@ class Booking extends Model
     public function customer()
     {
         return $this->belongsTo(User::class, 'customer_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function creator()

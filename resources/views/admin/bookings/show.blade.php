@@ -17,8 +17,8 @@
                             <td><strong>{{ $booking->hall->name }}</strong></td>
                         </tr>
                         <tr>
-                            <td class="text-muted">Customer</td>
-                            <td><strong>{{ $booking->customer->name }}</strong></td>
+                            <td class="text-muted">Staff</td>
+                            <td><strong>{{ optional($booking->customer)->name ?? optional($booking->user)->name ?? 'N/A' }}</strong></td>
                         </tr>
                         <tr>
                             <td class="text-muted">Event Date</td>

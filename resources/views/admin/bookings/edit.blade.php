@@ -46,9 +46,9 @@
                     </select>
                 </div>
 
-                {{-- Customer --}}
+                {{-- Staff --}}
                 <div class="col-md-6 mb-3">
-                    <label class="form-label">Select Customer</label>
+                    <label class="form-label">Select Staff</label>
                     <select name="customer_id" class="form-select" required>
                         @foreach($customers as $customer)
                             <option value="{{ $customer->id }}"

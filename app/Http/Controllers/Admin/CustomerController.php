@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class CustomerController extends Controller
 {
     /**
-     * Display a listing of customers
+     * Display a listing of staff
      */
     public function index()
     {
@@ -22,7 +22,7 @@ class CustomerController extends Controller
     }
 
     /**
-     * Display the specified customer
+     * Display the specified staff
      */
     public function show(User $customer)
     {
@@ -39,7 +39,7 @@ class CustomerController extends Controller
     }
 
     /**
-     * Remove the specified customer
+     * Remove the specified staff
      */
     public function destroy(User $customer)
     {
@@ -47,16 +47,16 @@ class CustomerController extends Controller
 
             // Optional: Prevent delete if active bookings exist
             if ($customer->bookings()->where('booking_status', 'confirmed')->exists()) {
-                return back()->with('error', 'Cannot delete customer with active bookings!');
+                return back()->with('error', 'Cannot delete staff with active bookings!');
             }
 
             $customer->delete();
 
             return redirect()
                 ->route('admin.customers.index')
-                ->with('success', 'Customer deleted successfully!');
+                ->with('success', 'Staff deleted successfully!');
         }
 
-        return back()->with('error', 'Only customers can be deleted!');
+        return back()->with('error', 'Only staff can be deleted!');
     }
 }

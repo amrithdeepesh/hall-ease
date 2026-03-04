@@ -37,7 +37,13 @@ $container = ($container ?? 'container-xxl');
     <div class="layout-container">
 
         @if ($isMenu)
-        @include('layouts/sections/menu/verticalMenu')
+            @if (request()->is('admin/*'))
+                @include('layouts/sections/menu/verticalMenu')
+            @elseif (auth()->check() && (auth()->user()->role ?? 'user') === 'user')
+                @include('layouts/sections/menu/userVerticalMenu')
+            @else
+                @include('layouts/sections/menu/verticalMenu')
+            @endif
         @endif
 
 

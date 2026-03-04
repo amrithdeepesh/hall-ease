@@ -1,9 +1,13 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Admin Dashboard')
+@section('title', 'User Dashboard')
 
 @section('page-style')
 <style>
+    .user-dashboard-scale {
+        font-size: 1.06rem;
+    }
+
     .admin-calendar-card .calendar-toolbar {
         display: flex;
         align-items: center;
@@ -141,72 +145,7 @@
 @endsection
 
 @section('content')
-<div class="container-xxl flex-grow-1 container-p-y">
-    <!-- Key Statistics -->
-    <div class="row mb-4">
-        <div class="col-md-3 col-sm-6 mb-3">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="d-block text-muted text-uppercase font-weight-bold" style="font-size: 0.75rem;">Total Halls</span>
-                            <h3 class="mb-0 mt-2">{{ $total_halls }}</h3>
-                        </div>
-                        <div class="text-center" style="background: white; padding: 12px 15px; border-radius: 8px;">
-                            <i class="bx bx-buildings" style="font-size: 2.5rem; color: #0d6efd;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 mb-3">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="d-block text-muted text-uppercase font-weight-bold" style="font-size: 0.75rem;">Total Users</span>
-                            <h3 class="mb-0 mt-2">{{ $total_users }}</h3>
-                        </div>
-                        <div class="text-center" style="background: white; padding: 12px 15px; border-radius: 8px;">
-                            <i class="bx bx-user-circle" style="font-size: 2.5rem; color: #198754;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 mb-3">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="d-block text-muted text-uppercase font-weight-bold" style="font-size: 0.75rem;">Total Bookings</span>
-                            <h3 class="mb-0 mt-2">{{ $total_bookings }}</h3>
-                        </div>
-                        <div class="text-center" style="background: white; padding: 12px 15px; border-radius: 8px;">
-                            <i class="bx bx-calendar-event" style="font-size: 2.5rem; color: #0dcaf0;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 mb-3">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="d-block text-muted text-uppercase font-weight-bold" style="font-size: 0.75rem;">Total Events</span>
-                            <h3 class="mb-0 mt-2">{{ $total_events }}</h3>
-                        </div>
-                        <div class="text-center" style="background: white; padding: 12px 15px; border-radius: 8px;">
-                            <i class="bx bx-party" style="font-size: 2.5rem; color: #6f42c1;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
+<div class="container-xxl flex-grow-1 container-p-y user-dashboard-scale">
     <!-- Event Calendar -->
     <div class="row mb-4">
         <div class="col-12">
@@ -217,21 +156,21 @@
                         <span>Event Calendar</span>
                     </h4>
                     <div class="calendar-toolbar mb-3">
-                        <h4 class="calendar-month-label" id="admin-calendar-month">Month Year</h4>
+                        <h4 class="calendar-month-label" id="user-calendar-month">Month Year</h4>
                         <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-outline-secondary btn-sm py-1 px-2" id="admin-calendar-prev">
+                            <button type="button" class="btn btn-outline-secondary btn-sm py-1 px-2" id="user-calendar-prev">
                                 <i class="bx bx-chevron-left"></i> Prev
                             </button>
-                            <button type="button" class="btn btn-outline-primary btn-sm py-1 px-2" id="admin-calendar-today">
+                            <button type="button" class="btn btn-outline-primary btn-sm py-1 px-2" id="user-calendar-today">
                                 Today
                             </button>
-                            <button type="button" class="btn btn-outline-secondary btn-sm py-1 px-2" id="admin-calendar-next">
+                            <button type="button" class="btn btn-outline-secondary btn-sm py-1 px-2" id="user-calendar-next">
                                 Next <i class="bx bx-chevron-right"></i>
                             </button>
                         </div>
                     </div>
 
-                    <div class="calendar-grid mb-2" id="admin-calendar-weekdays">
+                    <div class="calendar-grid mb-2" id="user-calendar-weekdays">
                         <div class="calendar-weekday">Sun</div>
                         <div class="calendar-weekday">Mon</div>
                         <div class="calendar-weekday">Tue</div>
@@ -241,13 +180,13 @@
                         <div class="calendar-weekday">Sat</div>
                     </div>
 
-                    <div class="calendar-grid" id="admin-calendar-days"></div>
+                    <div class="calendar-grid" id="user-calendar-days"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Quick Actions & Management -->
+    <!-- Quick Actions & Helpful Links -->
     <div class="row">
         <div class="col-lg-6 mb-4">
             <div class="card h-100">
@@ -258,25 +197,25 @@
                 </div>
                 <div class="card-body p-0">
                     <div class="list-group list-group-flush">
-                        <a href="{{ route('admin.halls.create') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center border-0">
+                        <a href="{{ route('user.bookings.create') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center border-0">
                             <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center;"><i class="bx bx-plus-circle text-primary" style="font-size: 1.3rem;"></i></span>
                             <div>
-                                <div class="fw-bold">Add New Hall</div>
-                                <small class="text-muted">Create a new event hall</small>
+                                <div class="fw-bold">Book a Hall</div>
+                                <small class="text-muted">Create a new booking request</small>
                             </div>
                         </a>
-                        <a href="{{ route('admin.bookings.create') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center border-0">
-                            <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center;"><i class="bx bx-plus-circle text-success" style="font-size: 1.3rem;"></i></span>
+                        <a href="{{ route('user.halls.index') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center border-0">
+                            <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center;"><i class="bx bx-search-alt text-success" style="font-size: 1.3rem;"></i></span>
                             <div>
-                                <div class="fw-bold">Create Booking</div>
-                                <small class="text-muted">Book an event for a staff member</small>
+                                <div class="fw-bold">Explore Halls</div>
+                                <small class="text-muted">View available halls and details</small>
                             </div>
                         </a>
-                        <a href="{{ route('admin.staff.create') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center border-0">
-                            <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center;"><i class="bx bx-plus-circle text-info" style="font-size: 1.3rem;"></i></span>
+                        <a href="{{ route('user.bookings.index') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center border-0">
+                            <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center;"><i class="bx bx-list-ul text-info" style="font-size: 1.3rem;"></i></span>
                             <div>
-                                <div class="fw-bold">Add Staff Member</div>
-                                <small class="text-muted">Manage staff</small>
+                                <div class="fw-bold">View My Bookings</div>
+                                <small class="text-muted">Check your booking history</small>
                             </div>
                         </a>
                     </div>
@@ -288,85 +227,44 @@
             <div class="card h-100">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h5 class="card-title mb-0">
-                        <span class="badge" style="background: white; color: #0dcaf0; font-size: 2.0rem; display: inline-block; margin-right: 8px;">⚙️</span><span style="font-size: 2.0rem; font-weight: 700;">Management</span>
+                        <span class="badge" style="background: white; color: #0dcaf0; font-size: 2.0rem; display: inline-block; margin-right: 8px;">⚙️</span><span style="font-size: 2.0rem; font-weight: 700;">Helpful Links</span>
                     </h5>
                 </div>
                 <div class="card-body p-0">
                     <div class="list-group list-group-flush">
-                        <a href="{{ route('admin.halls.index') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center justify-content-between border-0">
+                        <a href="{{ route('user.halls.index') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center justify-content-between border-0">
                             <div class="d-flex align-items-center">
                                 <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 12px;"><i class="bx bx-building text-primary" style="font-size: 1.3rem;"></i></span>
                                 <div>
-                                    <div class="fw-bold">All Halls</div>
-                                    <small class="text-muted">View & manage event halls</small>
+                                    <div class="fw-bold">Hall Directory</div>
+                                    <small class="text-muted">Find the right hall for your event</small>
                                 </div>
                             </div>
                             <i class="bx bx-chevron-right text-muted"></i>
                         </a>
-                        <a href="{{ route('admin.customers.index') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center justify-content-between border-0">
+                        <a href="{{ route('user.bookings.index') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center justify-content-between border-0">
                             <div class="d-flex align-items-center">
-                                <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 12px;"><i class="bx bx-user text-success" style="font-size: 1.3rem;"></i></span>
+                                <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 12px;"><i class="bx bx-calendar text-success" style="font-size: 1.3rem;"></i></span>
                                 <div>
-                                    <div class="fw-bold">Staff</div>
-                                    <small class="text-muted">Manage staff accounts</small>
+                                    <div class="fw-bold">Booking History</div>
+                                    <small class="text-muted">Review your past and upcoming events</small>
                                 </div>
                             </div>
                             <i class="bx bx-chevron-right text-muted"></i>
                         </a>
-                        <a href="{{ route('admin.bookings.index') }}" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center justify-content-between border-0">
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('user-logout-form').submit();" class="list-group-item list-group-item-action px-4 py-3 d-flex align-items-center justify-content-between border-0">
                             <div class="d-flex align-items-center">
-                                <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 12px;"><i class="bx bx-calendar text-info" style="font-size: 1.3rem;"></i></span>
+                                <span style="background: white; padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 12px;"><i class="bx bx-log-out text-danger" style="font-size: 1.3rem;"></i></span>
                                 <div>
-                                    <div class="fw-bold">Bookings</div>
-                                    <small class="text-muted">View & manage bookings</small>
+                                    <div class="fw-bold">Logout</div>
+                                    <small class="text-muted">Sign out of your account safely</small>
                                 </div>
                             </div>
                             <i class="bx bx-chevron-right text-muted"></i>
                         </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- All User Bookings -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">All User Bookings</h5>
-                    <span class="badge bg-primary">{{ $all_user_bookings->count() }}</span>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-sm align-middle">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>User</th>
-                                    <th>Hall</th>
-                                    <th>Event</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($all_user_bookings as $booking)
-                                    <tr>
-                                        <td>{{ $booking->id }}</td>
-                                        <td>{{ optional($booking->customer)->name ?? optional($booking->user)->name ?? 'N/A' }}</td>
-                                        <td>{{ optional($booking->hall)->name ?? 'N/A' }}</td>
-                                        <td>{{ $booking->event_name ?? 'N/A' }}</td>
-                                        <td>{{ optional($booking->event_date)->format('M d, Y') }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($booking->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($booking->end_time)->format('H:i') }}</td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6" class="text-center text-muted">No user bookings found.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                        <form id="user-logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     </div>
                 </div>
             </div>
@@ -379,21 +277,21 @@
             <div class="alert alert-info d-flex align-items-center" role="alert">
                 <i class="bx bx-info-circle me-2" style="font-size: 1.3rem;"></i>
                 <div>
-                    <strong>Pro Tip:</strong> Use the menu on the left to access all features and manage your hall business efficiently!
+                    <strong>Tip:</strong> Use the left menu to navigate quickly and manage your bookings with ease.
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="adminCalendarDayModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="userCalendarDayModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="adminCalendarDayModalTitle">Booking Details</h5>
+                <h5 class="modal-title" id="userCalendarDayModalTitle">Booking Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="adminCalendarDayModalBody"></div>
+            <div class="modal-body" id="userCalendarDayModalBody"></div>
         </div>
     </div>
 </div>
@@ -403,14 +301,14 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const calendarBookings = @json($calendar_bookings ?? []);
-        const monthLabel = document.getElementById('admin-calendar-month');
-        const daysContainer = document.getElementById('admin-calendar-days');
-        const prevButton = document.getElementById('admin-calendar-prev');
-        const nextButton = document.getElementById('admin-calendar-next');
-        const todayButton = document.getElementById('admin-calendar-today');
-        const dayModalElement = document.getElementById('adminCalendarDayModal');
-        const dayModalTitle = document.getElementById('adminCalendarDayModalTitle');
-        const dayModalBody = document.getElementById('adminCalendarDayModalBody');
+        const monthLabel = document.getElementById('user-calendar-month');
+        const daysContainer = document.getElementById('user-calendar-days');
+        const prevButton = document.getElementById('user-calendar-prev');
+        const nextButton = document.getElementById('user-calendar-next');
+        const todayButton = document.getElementById('user-calendar-today');
+        const dayModalElement = document.getElementById('userCalendarDayModal');
+        const dayModalTitle = document.getElementById('userCalendarDayModalTitle');
+        const dayModalBody = document.getElementById('userCalendarDayModalBody');
         const dayModal = dayModalElement ? new bootstrap.Modal(dayModalElement) : null;
 
         if (!monthLabel || !daysContainer || !prevButton || !nextButton || !todayButton) return;
@@ -603,3 +501,4 @@
     });
 </script>
 @endsection
+

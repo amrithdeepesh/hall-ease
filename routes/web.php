@@ -8,6 +8,10 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\User\HallController as UserHallController;
+use App\Http\Controllers\User\BookingController as UserBookingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\layouts\WithoutMenu;
 use App\Http\Controllers\layouts\WithoutNavbar;
@@ -73,6 +77,7 @@ Route::middleware(['auth'])
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         // Hall Management Routes
+        Route::delete('halls/{hall}/images/{image}', [HallController::class, 'destroyImage'])->name('halls.images.destroy');
         Route::resource('halls', HallController::class);
 
         // Booking Management Routes
@@ -86,6 +91,8 @@ Route::middleware(['auth'])
         Route::resource('events', EventController::class, ['only' => ['index', 'show', 'update']]);
 
         // Staff Management Routes
+        Route::get('staff/create-user', [StaffController::class, 'createUser'])->name('staff.create-user');
+        Route::post('staff/store-user', [StaffController::class, 'storeUser'])->name('staff.store-user');
         Route::resource('staff', StaffController::class);
 
         // Reports Routes
@@ -99,6 +106,26 @@ Route::middleware(['auth'])
         Route::get('settings/email', [SettingsController::class, 'email'])->name('settings.email');
         Route::get('settings/general', [SettingsController::class, 'general'])->name('settings.general');
         Route::get('settings/security', [SettingsController::class, 'security'])->name('settings.security');
+
+        // Notifications
+        Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    });
+
+// ============================================
+// PROTECTED USER ROUTES
+// ============================================
+Route::middleware(['auth'])
+    ->prefix('user')
+    ->name('user.')
+    ->group(function () {
+        Route::get('dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+        Route::get('halls', [UserHallController::class, 'index'])->name('halls.index');
+        Route::get('campus/{campus}/block/{block}', [UserHallController::class, 'block'])->name('halls.block');
+        Route::get('bookings', [UserBookingController::class, 'index'])->name('bookings.index');
+        Route::get('bookings/create', [UserBookingController::class, 'create'])->name('bookings.create');
+        Route::post('bookings', [UserBookingController::class, 'store'])->name('bookings.store');
+        Route::get('bookings/cancel', [UserBookingController::class, 'showCancellationForm'])->name('bookings.cancel.form');
+        Route::post('bookings/cancel', [UserBookingController::class, 'cancel'])->name('bookings.cancel.submit');
     });
 
 // ============================================

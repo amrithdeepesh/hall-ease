@@ -13,7 +13,10 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Booking::with(['user', 'hall'])->paginate(10);
+        $events = Booking::with(['user', 'customer', 'hall'])
+            ->latest('event_date')
+            ->latest('start_time')
+            ->paginate(10);
         return view('admin.events.index', compact('events'));
     }
 
@@ -22,6 +25,7 @@ class EventController extends Controller
      */
     public function show(Booking $event)
     {
+        $event->load(['user', 'customer', 'hall']);
         return view('admin.events.show', compact('event'));
     }
 

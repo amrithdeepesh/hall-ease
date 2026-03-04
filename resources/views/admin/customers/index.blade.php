@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Customers')
+@section('title', 'Staff')
 
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -8,7 +8,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title">All Customers</h5>
+                    <h5 class="card-title">All Staff</h5>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped">

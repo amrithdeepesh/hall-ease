@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Customer Details')
+@section('title', 'Staff Details')
 
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -8,7 +8,7 @@
         <div class="col-md-8">
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="card-title">Customer Information</h5>
+                    <h5 class="card-title">Staff Information</h5>
                 </div>
                 <div class="card-body">
                     <table class="table table-borderless">

@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <h6 class="card-title mb-2">Customers</h6>
+                            <h6 class="card-title mb-2">Staff</h6>
                             <h3 class="mb-0">{{ $total_customers }}</h3>
                         </div>
                         <i class="bx bx-user text-warning" style="font-size: 2rem;"></i>

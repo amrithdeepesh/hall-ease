@@ -18,7 +18,8 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Location</th>
+                                    <th>Campus</th>
+                                    <th>Block</th>
                                     <th>Capacity</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -28,6 +29,7 @@
                                 @forelse ($halls as $hall)
                                     <tr>
                                         <td>{{ $hall->name }}</td>
+                                        <td>{{ $hall->campus_name ?? 'N/A' }}</td>
                                         <td>{{ $hall->location }}</td>
                                         <td>{{ $hall->capacity }} persons</td>
                                         <td>
@@ -60,7 +62,7 @@
                                     </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="text-center">No halls found.</td>
+                                            <td colspan="7" class="text-center">No halls found.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>

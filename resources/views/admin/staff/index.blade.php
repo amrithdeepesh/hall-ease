@@ -8,10 +8,15 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title">All Staff</h5>
-                    <a href="{{ route('admin.staff.create') }}" class="btn btn-primary">
-                        <i class="bx bx-plus"></i> Add Staff
-                    </a>
+                    <h5 class="card-title">Staff & User Accounts</h5>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('admin.staff.create') }}" class="btn btn-primary">
+                            <i class="bx bx-plus"></i> Add Staff
+                        </a>
+                        <a href="{{ route('admin.staff.create-user') }}" class="btn btn-outline-primary">
+                            <i class="bx bx-user-plus"></i> Add User
+                        </a>
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -19,6 +24,7 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Role</th>
                                 <th>Phone</th>
                                 <th>Joined</th>
                                 <th>Actions</th>
@@ -29,6 +35,13 @@
                                 <tr>
                                     <td>{{ $member->name }}</td>
                                     <td>{{ $member->email }}</td>
+                                    <td>
+                                        @if ($member->role === 'admin')
+                                            <span class="badge bg-label-primary">Staff</span>
+                                        @else
+                                            <span class="badge bg-label-info">User</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $member->phone ?? 'N/A' }}</td>
                                     <td>{{ $member->created_at->format('M d, Y') }}</td>
                                     <td>

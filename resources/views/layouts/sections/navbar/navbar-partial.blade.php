@@ -24,14 +24,34 @@ $userInitial = strtoupper(substr(Auth::user()->name ?? 'U', 0, 1));
 @endif
 
 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-    <ul class="navbar-nav flex-row align-items-center ms-auto">
-        <!-- Place this tag where you want the button to render. -->
-        <li class="nav-item lh-1 me-4">
-            <a class="github-button" href="{{config('variables.repository')}}" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star themeselection/sneat-html-laravel-admin-template-free on GitHub">Star</a>
-        </li>
+    <ul class="navbar-nav flex-row align-items-center w-100">
+        @forelse (collect($campus_groups ?? []) as $campusName => $blocks)
+            <li class="nav-item dropdown me-2">
+                <a class="nav-link dropdown-toggle" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    {{ $campusName }}
+                </a>
+                <ul class="dropdown-menu">
+                    @forelse ($blocks as $blockName => $halls)
+                        <li>
+                            <a class="dropdown-item" href="{{ route('user.halls.block', ['campus' => $campusName, 'block' => $blockName]) }}">
+                                {{ $blockName }}
+                            </a>
+                        </li>
+                    @empty
+                        <li>
+                            <span class="dropdown-item text-muted">No blocks added</span>
+                        </li>
+                    @endforelse
+                </ul>
+            </li>
+        @empty
+            <li class="nav-item me-3">
+                <span class="nav-link text-muted">No campuses added yet</span>
+            </li>
+        @endforelse
 
         <!-- User -->
-        <li class="nav-item navbar-dropdown dropdown-user dropdown">
+        <li class="nav-item navbar-dropdown dropdown-user dropdown ms-auto">
             <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                 <div class="avatar avatar-online">
                     <span class="w-px-40 h-px-40 rounded-circle d-flex align-items-center justify-content-center fw-semibold text-white bg-primary">

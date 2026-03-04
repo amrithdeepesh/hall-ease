@@ -8,6 +8,7 @@ use App\Models\Hall;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 
 class BookingController extends Controller
 {
@@ -16,11 +17,43 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $bookings = Booking::with(['hall', 'user'])
-            ->latest()
-            ->paginate(10);
+        $bookingsTable = (new Booking())->getTable();
+        $hasCancellationReason = Schema::hasColumn($bookingsTable, 'cancellation_reason');
+        $today = now()->toDateString();
 
-        return view('admin.bookings.index', compact('bookings'));
+        $baseQuery = Booking::with(['hall', 'customer', 'user']);
+
+        $upcomingQuery = clone $baseQuery;
+        $upcomingQuery->whereDate('event_date', '>=', $today);
+        if ($hasCancellationReason) {
+            $upcomingQuery->where(function ($query) {
+                $query->whereNull('cancellation_reason')
+                    ->orWhere('cancellation_reason', '');
+            });
+        }
+
+        $completedQuery = clone $baseQuery;
+        $completedQuery->whereDate('event_date', '<', $today);
+        if ($hasCancellationReason) {
+            $completedQuery->where(function ($query) {
+                $query->whereNull('cancellation_reason')
+                    ->orWhere('cancellation_reason', '');
+            });
+        }
+
+        $cancelledQuery = clone $baseQuery;
+        if ($hasCancellationReason) {
+            $cancelledQuery->whereNotNull('cancellation_reason')
+                ->where('cancellation_reason', '!=', '');
+        } else {
+            $cancelledQuery->whereRaw('1 = 0');
+        }
+
+        return view('admin.bookings.index', [
+            'upcomingBookings' => $upcomingQuery->latest('event_date')->latest('start_time')->get(),
+            'completedBookings' => $completedQuery->latest('event_date')->latest('start_time')->get(),
+            'cancelledBookings' => $cancelledQuery->latest('event_date')->latest('start_time')->get(),
+        ]);
     }
 
     /**
@@ -45,7 +78,28 @@ class BookingController extends Controller
             'event_date' => 'required|date|after_or_equal:today',
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
+            'event_name' => 'required|string|max:255',
+            'event_department' => 'required|string|max:255',
+            'event_type' => 'required|string|max:255',
+            'coordinator_name' => 'required|string|max:255',
+            'coordinator_phone' => 'required|string|max:20',
+            'coordinator_department' => 'required|string|max:255',
+            'coordinator_email' => 'required|email|max:255',
+            'coordinator_emergency_number' => 'required|string|max:20',
+            'media_requirements' => 'nullable|array',
+            'media_requirements.*' => 'in:photography,videography,livestreaming,reels,photos,others',
+            'media_requirements_other' => 'nullable|string|max:500',
+            'details_confirmation' => 'accepted',
         ]);
+
+        if (
+            in_array('others', $request->input('media_requirements', []), true) &&
+            blank($request->media_requirements_other)
+        ) {
+            return back()
+                ->withErrors(['media_requirements_other' => 'Please specify the other media requirement.'])
+                ->withInput();
+        }
 
         // 🔥 Check availability
         $exists = Booking::where('hall_id', $request->hall_id)
@@ -67,6 +121,16 @@ class BookingController extends Controller
             'event_date' => $request->event_date,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
+            'event_name' => $request->event_name,
+            'event_department' => $request->event_department,
+            'event_type' => $request->event_type,
+            'coordinator_name' => $request->coordinator_name,
+            'coordinator_phone' => $request->coordinator_phone,
+            'coordinator_department' => $request->coordinator_department,
+            'coordinator_email' => $request->coordinator_email,
+            'coordinator_emergency_number' => $request->coordinator_emergency_number,
+            'media_requirements' => $request->input('media_requirements', []),
+            'media_requirements_other' => $request->media_requirements_other,
         ]);
 
         return redirect()->route('admin.bookings.index')

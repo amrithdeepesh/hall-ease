@@ -74,7 +74,7 @@
                                     <input class="form-check-input" type="checkbox" id="remember-me" name="remember" />
                                     <label class="form-check-label" for="remember-me"> Remember Me </label>
                                 </div>
-                                <a href="{{ url('auth/forgot-password') }}">
+                                <a href="{{ route('reset-password') }}">
                                     <span>Forgot Password?</span>
                                 </a>
                             </div>
@@ -86,7 +86,7 @@
 
                     <p class="text-center">
                         <span>New on our platform?</span>
-                        <a href="{{ url('auth/register-basic') }}">
+                        <a href="{{ route('register') }}">
                             <span>Create an account</span>
                         </a>
                     </p>

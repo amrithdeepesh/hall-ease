@@ -10,6 +10,14 @@
                 <div class="card-header">
                     <h5 class="card-title">Edit Hall</h5>
                 </div>
+                @if(session('success'))
+                    <div class="alert alert-success mx-3 mt-3 mb-0">{{ session('success') }}</div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-danger mx-3 mt-3 mb-0">{{ session('error') }}</div>
+                @endif
+
                 <form action="{{ route('admin.halls.update', $hall) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
@@ -23,7 +31,21 @@
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="location" class="form-label">Location *</label>
+                            <label for="campus_name" class="form-label">Campus Name *</label>
+                            <select class="form-control @error('campus_name') is-invalid @enderror" id="campus_name" name="campus_name" required>
+                                <option value="">Select Campus</option>
+                                <option value="Main Campus" {{ old('campus_name', $hall->campus_name) === 'Main Campus' ? 'selected' : '' }}>Main Campus</option>
+                                <option value="AIMT Campus" {{ old('campus_name', $hall->campus_name) === 'AIMT Campus' ? 'selected' : '' }}>AIMT Campus</option>
+                                <option value="Engineering Campus" {{ old('campus_name', $hall->campus_name) === 'Engineering Campus' ? 'selected' : '' }}>Engineering Campus</option>
+                                <option value="Capitanio Campus" {{ old('campus_name', $hall->campus_name) === 'Capitanio Campus' ? 'selected' : '' }}>Capitanio Campus</option>
+                            </select>
+                            @error('campus_name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="location" class="form-label">Block *</label>
                             <input type="text" class="form-control @error('location') is-invalid @enderror" id="location" name="location" value="{{ old('location', $hall->location) }}" required />
                             @error('location')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -56,14 +78,76 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label">Add More Hall Images</label>
+                            <div id="hall-images-container">
+                                <input type="file" class="form-control mb-2 @error('hall_images') is-invalid @enderror @error('hall_images.*') is-invalid @enderror" name="hall_images[]" accept=".jpg,.jpeg,.png,.webp,.heic,.heif" />
+                            </div>
+                            <button type="button" id="add-hall-image-input" class="btn btn-sm btn-outline-primary mt-2">
+                                <i class="bx bx-plus"></i> Add Another Image
+                            </button>
+                            <small class="text-muted">You can upload up to 20 images (JPG, PNG, WEBP, HEIC, HEIF up to 10MB each).</small>
+                            @error('hall_images')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                            @error('hall_images.*')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                     <div class="card-footer">
                         <a href="{{ route('admin.halls.index') }}" class="btn btn-secondary">Back</a>
                         <button type="submit" class="btn btn-primary">Update Hall</button>
                     </div>
                 </form>
+
+                <div class="card-body border-top">
+                    <div class="form-group mb-0">
+                        <label class="form-label">Existing Hall Images</label>
+                        @if($hall->images->count() > 0)
+                            <div class="row g-3">
+                                @foreach($hall->images as $image)
+                                    <div class="col-md-4 col-sm-6">
+                                        <div class="border rounded p-2">
+                                            <img src="{{ asset('storage/' . $image->image_path) }}" alt="Hall image" class="img-fluid rounded mb-2" style="height: 150px; width: 100%; object-fit: cover;">
+                                            <form action="{{ route('admin.halls.images.destroy', [$hall, $image]) }}" method="POST" onsubmit="return confirm('Delete this image?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger w-100">
+                                                    <i class="bx bx-trash"></i> Delete Photo
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <div class="text-muted">No hall images uploaded.</div>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const addButton = document.getElementById('add-hall-image-input');
+        const container = document.getElementById('hall-images-container');
+
+        addButton.addEventListener('click', function () {
+            const inputs = container.querySelectorAll('input[type="file"]').length;
+            if (inputs >= 20) return;
+
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.name = 'hall_images[]';
+            input.accept = '.jpg,.jpeg,.png,.webp,.heic,.heif';
+            input.className = 'form-control mb-2';
+            container.appendChild(input);
+        });
+    });
+</script>
 @endsection

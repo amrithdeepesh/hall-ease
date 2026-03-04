@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Hall;
 use App\Models\HallImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class HallController extends Controller
 {
@@ -33,13 +34,34 @@ class HallController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'campus_name' => 'required|in:Main Campus,AIMT Campus,Engineering Campus,Capitanio Campus',
             'location' => 'required|string|max:255',
             'capacity' => 'required|integer|min:10',
             'description' => 'nullable|string',
             'status' => 'in:available,maintenance',
+            'hall_images' => 'nullable|array|max:20',
+            'hall_images.*' => 'file|mimes:jpg,jpeg,png,webp,heic,heif|max:10240',
         ]);
 
-        Hall::create($validated);
+        $hall = Hall::create([
+            'name' => $validated['name'],
+            'campus_name' => $validated['campus_name'],
+            'location' => $validated['location'],
+            'capacity' => $validated['capacity'],
+            'description' => $validated['description'] ?? null,
+            'status' => $validated['status'] ?? 'available',
+        ]);
+
+        if ($request->hasFile('hall_images')) {
+            foreach ($request->file('hall_images') as $image) {
+                $path = $image->store('halls', 'public');
+
+                HallImage::create([
+                    'hall_id' => $hall->id,
+                    'image_path' => $path,
+                ]);
+            }
+        }
 
         return redirect()
             ->route('admin.halls.index')
@@ -64,19 +86,55 @@ class HallController extends Controller
     }
 
     /**
+     * Delete a single hall image.
+     */
+    public function destroyImage(Hall $hall, HallImage $image)
+    {
+        if ((int) $image->hall_id !== (int) $hall->id) {
+            return back()->with('error', 'The selected image does not belong to this hall.');
+        }
+
+        Storage::disk('public')->delete($image->image_path);
+        $image->delete();
+
+        return back()->with('success', 'Hall image deleted successfully.');
+    }
+
+    /**
      * Update the specified hall in database
      */
     public function update(Request $request, Hall $hall)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'campus_name' => 'required|in:Main Campus,AIMT Campus,Engineering Campus,Capitanio Campus',
             'location' => 'required|string|max:255',
             'capacity' => 'required|integer|min:10',
             'description' => 'nullable|string',
             'status' => 'in:available,maintenance',
+            'hall_images' => 'nullable|array|max:20',
+            'hall_images.*' => 'file|mimes:jpg,jpeg,png,webp,heic,heif|max:10240',
         ]);
 
-        $hall->update($validated);
+        $hall->update([
+            'name' => $validated['name'],
+            'campus_name' => $validated['campus_name'],
+            'location' => $validated['location'],
+            'capacity' => $validated['capacity'],
+            'description' => $validated['description'] ?? null,
+            'status' => $validated['status'] ?? 'available',
+        ]);
+
+        if ($request->hasFile('hall_images')) {
+            foreach ($request->file('hall_images') as $image) {
+                $path = $image->store('halls', 'public');
+
+                HallImage::create([
+                    'hall_id' => $hall->id,
+                    'image_path' => $path,
+                ]);
+            }
+        }
 
         return redirect()
             ->route('admin.halls.index')
@@ -88,6 +146,11 @@ class HallController extends Controller
      */
     public function destroy(Hall $hall)
     {
+        foreach ($hall->images as $image) {
+            Storage::disk('public')->delete($image->image_path);
+            $image->delete();
+        }
+
         $hall->delete();
 
         return redirect()

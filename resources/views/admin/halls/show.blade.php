@@ -17,7 +17,11 @@
                             <td><strong>{{ $hall->name }}</strong></td>
                         </tr>
                         <tr>
-                            <td class="text-muted">Location</td>
+                            <td class="text-muted">Campus</td>
+                            <td><strong>{{ $hall->campus_name ?? 'N/A' }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Block</td>
                             <td><strong>{{ $hall->location }}</strong></td>
                         </tr>
                         <tr>
