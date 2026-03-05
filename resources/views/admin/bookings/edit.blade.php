@@ -97,6 +97,43 @@
                               rows="3">{{ $booking->cancellation_reason }}</textarea>
                 </div>
 
+                <div class="col-12">
+                    <hr class="my-4">
+                    <h5 class="mb-3">Resources Required</h5>
+                </div>
+                @php
+                    $selectedResources = old('resources', $booking->resources ?? []);
+                @endphp
+                <div class="col-md-12 mb-3">
+                    <div class="d-flex flex-wrap gap-3">
+                        @foreach([
+                            'projectors' => 'Projectors',
+                            'sound_systems' => 'Sound Systems',
+                            'lighting' => 'Lighting',
+                            'seating' => 'Seating',
+                            'other' => 'Other'
+                        ] as $value => $label)
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       id="edit_resource_{{ $value }}"
+                                       name="resources[]"
+                                       value="{{ $value }}"
+                                       {{ in_array($value, $selectedResources, true) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="edit_resource_{{ $value }}">{{ $label }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Other Resource (Please specify)</label>
+                    <input type="text"
+                           name="resources_other"
+                           value="{{ old('resources_other', $booking->resources_other) }}"
+                           class="form-control"
+                           placeholder="Enter other resource requirement">
+                </div>
+
             </div>
 
             <div class="mt-3">

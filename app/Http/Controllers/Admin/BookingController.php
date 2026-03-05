@@ -89,6 +89,9 @@ class BookingController extends Controller
             'media_requirements' => 'nullable|array',
             'media_requirements.*' => 'in:photography,videography,livestreaming,reels,photos,others',
             'media_requirements_other' => 'nullable|string|max:500',
+            'resources' => 'nullable|array',
+            'resources.*' => 'in:projectors,sound_systems,lighting,seating,other',
+            'resources_other' => 'nullable|string|max:500',
             'details_confirmation' => 'accepted',
         ]);
 
@@ -98,6 +101,15 @@ class BookingController extends Controller
         ) {
             return back()
                 ->withErrors(['media_requirements_other' => 'Please specify the other media requirement.'])
+                ->withInput();
+        }
+
+        if (
+            in_array('other', $request->input('resources', []), true) &&
+            blank($request->resources_other)
+        ) {
+            return back()
+                ->withErrors(['resources_other' => 'Please specify the other resource requirement.'])
                 ->withInput();
         }
 
@@ -131,6 +143,8 @@ class BookingController extends Controller
             'coordinator_emergency_number' => $request->coordinator_emergency_number,
             'media_requirements' => $request->input('media_requirements', []),
             'media_requirements_other' => $request->media_requirements_other,
+            'resources' => $request->input('resources', []),
+            'resources_other' => $request->resources_other,
         ]);
 
         return redirect()->route('admin.bookings.index')
@@ -169,16 +183,30 @@ class BookingController extends Controller
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
             'cancellation_reason' => 'nullable|string',
+            'resources' => 'nullable|array',
+            'resources.*' => 'in:projectors,sound_systems,lighting,seating,other',
+            'resources_other' => 'nullable|string|max:500',
         ]);
 
-        $booking->update($request->only([
-            'hall_id',
-            'customer_id',
-            'event_date',
-            'start_time',
-            'end_time',
-            'cancellation_reason',
-        ]));
+        if (
+            in_array('other', $request->input('resources', []), true) &&
+            blank($request->resources_other)
+        ) {
+            return back()
+                ->withErrors(['resources_other' => 'Please specify the other resource requirement.'])
+                ->withInput();
+        }
+
+        $booking->update([
+            'hall_id' => $request->hall_id,
+            'customer_id' => $request->customer_id,
+            'event_date' => $request->event_date,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'cancellation_reason' => $request->cancellation_reason,
+            'resources' => $request->input('resources', []),
+            'resources_other' => $request->resources_other,
+        ]);
 
         return redirect()
             ->route('admin.bookings.index')
@@ -209,5 +237,68 @@ class BookingController extends Controller
         ]);
 
         return back()->with('success', 'Booking updated.');
+    }
+
+    /**
+     * Show booking cancellation form for admin.
+     */
+    public function showCancellationForm()
+    {
+        if (!Schema::hasColumn((new Booking())->getTable(), 'cancellation_reason')) {
+            return back()->with('error', 'Cancellation reason field is not available yet. Please run latest migrations.');
+        }
+
+        $bookings = Booking::with(['hall', 'customer', 'user'])
+            ->latest('event_date')
+            ->latest('start_time')
+            ->get();
+
+        return view('admin.bookings.cancel', compact('bookings'));
+    }
+
+    /**
+     * Submit cancellation reason for any booking as admin.
+     */
+    public function cancel(Request $request)
+    {
+        $validated = $request->validate([
+            'booking_id' => 'required|integer|exists:bookings,id',
+            'cancellation_reason_option' => 'required|in:postponded,event_cancelled,low_participation,other',
+            'cancellation_reason_other' => 'nullable|string|max:500|required_if:cancellation_reason_option,other',
+        ]);
+
+        if (!Schema::hasColumn((new Booking())->getTable(), 'cancellation_reason')) {
+            return back()
+                ->with('error', 'Cancellation reason field is not available yet. Please run latest migrations.')
+                ->withInput();
+        }
+
+        $booking = Booking::query()
+            ->where('id', $validated['booking_id'])
+            ->first();
+
+        if (!$booking) {
+            return back()->with('error', 'Invalid booking selected.')->withInput();
+        }
+
+        $reasonLabels = [
+            'postponded' => 'Postponded',
+            'event_cancelled' => 'Event Cancelled',
+            'low_participation' => 'Low Participation',
+            'other' => 'Other',
+        ];
+
+        $reasonText = $reasonLabels[$validated['cancellation_reason_option']] ?? 'Other';
+        if ($validated['cancellation_reason_option'] === 'other') {
+            $reasonText .= ': ' . ($validated['cancellation_reason_other'] ?? '');
+        }
+
+        $booking->update([
+            'cancellation_reason' => $reasonText,
+        ]);
+
+        return redirect()
+            ->route('admin.bookings.cancel.form')
+            ->with('success', 'Booking cancellation details submitted successfully.');
     }
 }

@@ -28,6 +28,29 @@
                             <td class="text-muted">Time</td>
                             <td><strong>{{ $booking->start_time }} - {{ $booking->end_time }}</strong></td>
                         </tr>
+                        <tr>
+                            <td class="text-muted">Resources</td>
+                            <td>
+                                @php
+                                    $resourceLabels = [
+                                        'projectors' => 'Projectors',
+                                        'sound_systems' => 'Sound Systems',
+                                        'lighting' => 'Lighting',
+                                        'seating' => 'Seating',
+                                        'other' => 'Other',
+                                    ];
+
+                                    $resources = collect($booking->resources ?? [])
+                                        ->map(fn ($value) => $resourceLabels[$value] ?? ucfirst(str_replace('_', ' ', $value)))
+                                        ->values()
+                                        ->all();
+                                    if (!empty($booking->resources_other)) {
+                                        $resources[] = 'Other: ' . $booking->resources_other;
+                                    }
+                                @endphp
+                                <strong>{{ count($resources) ? implode(', ', $resources) : '-' }}</strong>
+                            </td>
+                        </tr>
                     </table>
                 </div>
                 <div class="card-footer">

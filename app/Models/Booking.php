@@ -27,6 +27,8 @@ class Booking extends Model
         'coordinator_emergency_number',
         'media_requirements',
         'media_requirements_other',
+        'resources',
+        'resources_other',
         'cancellation_reason',
     ];
 
@@ -35,6 +37,7 @@ class Booking extends Model
         'start_time' => 'datetime:H:i',
         'end_time' => 'datetime:H:i',
         'media_requirements' => 'array',
+        'resources' => 'array',
     ];
 
     public function hall()

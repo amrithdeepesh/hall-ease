@@ -65,6 +65,11 @@
                         <div>New Booking</div>
                     </a>
                 </li>
+                <li class="menu-item mb-2 {{ request()->routeIs('admin.bookings.cancel.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.bookings.cancel.form') }}" class="menu-link">
+                        <div>Cancellation</div>
+                    </a>
+                </li>
             </ul>
         </li>
 

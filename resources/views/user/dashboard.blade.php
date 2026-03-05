@@ -146,46 +146,6 @@
 
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y user-dashboard-scale">
-    <!-- Event Calendar -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card admin-calendar-card">
-                <div class="card-body p-3 p-md-4">
-                    <h4 class="card-title mb-3 d-flex align-items-center justify-content-center gap-2 text-center fw-bold">
-                        <i class="bx bx-party text-primary" style="font-size: 1.6rem;"></i>
-                        <span>Event Calendar</span>
-                    </h4>
-                    <div class="calendar-toolbar mb-3">
-                        <h4 class="calendar-month-label" id="user-calendar-month">Month Year</h4>
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-outline-secondary btn-sm py-1 px-2" id="user-calendar-prev">
-                                <i class="bx bx-chevron-left"></i> Prev
-                            </button>
-                            <button type="button" class="btn btn-outline-primary btn-sm py-1 px-2" id="user-calendar-today">
-                                Today
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary btn-sm py-1 px-2" id="user-calendar-next">
-                                Next <i class="bx bx-chevron-right"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="calendar-grid mb-2" id="user-calendar-weekdays">
-                        <div class="calendar-weekday">Sun</div>
-                        <div class="calendar-weekday">Mon</div>
-                        <div class="calendar-weekday">Tue</div>
-                        <div class="calendar-weekday">Wed</div>
-                        <div class="calendar-weekday">Thu</div>
-                        <div class="calendar-weekday">Fri</div>
-                        <div class="calendar-weekday">Sat</div>
-                    </div>
-
-                    <div class="calendar-grid" id="user-calendar-days"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Quick Actions & Helpful Links -->
     <div class="row">
         <div class="col-lg-6 mb-4">
@@ -266,6 +226,46 @@
                             @csrf
                         </form>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Calendar -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card admin-calendar-card">
+                <div class="card-body p-3 p-md-4">
+                    <h4 class="card-title mb-3 d-flex align-items-center justify-content-center gap-2 text-center fw-bold">
+                        <i class="bx bx-party text-primary" style="font-size: 1.6rem;"></i>
+                        <span>Event Calendar</span>
+                    </h4>
+                    <div class="calendar-toolbar mb-3">
+                        <h4 class="calendar-month-label" id="user-calendar-month">Month Year</h4>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-outline-secondary btn-sm py-1 px-2" id="user-calendar-prev">
+                                <i class="bx bx-chevron-left"></i> Prev
+                            </button>
+                            <button type="button" class="btn btn-outline-primary btn-sm py-1 px-2" id="user-calendar-today">
+                                Today
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm py-1 px-2" id="user-calendar-next">
+                                Next <i class="bx bx-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="calendar-grid mb-2" id="user-calendar-weekdays">
+                        <div class="calendar-weekday">Sun</div>
+                        <div class="calendar-weekday">Mon</div>
+                        <div class="calendar-weekday">Tue</div>
+                        <div class="calendar-weekday">Wed</div>
+                        <div class="calendar-weekday">Thu</div>
+                        <div class="calendar-weekday">Fri</div>
+                        <div class="calendar-weekday">Sat</div>
+                    </div>
+
+                    <div class="calendar-grid" id="user-calendar-days"></div>
                 </div>
             </div>
         </div>

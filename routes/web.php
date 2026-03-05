@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\HallController as UserHallController;
 use App\Http\Controllers\User\BookingController as UserBookingController;
+use App\Http\Controllers\User\NotificationController as UserNotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\layouts\WithoutMenu;
 use App\Http\Controllers\layouts\WithoutNavbar;
@@ -63,7 +64,12 @@ Route::get('register', [RegisterBasic::class, 'index'])->name('register');
 Route::post('login', [LoginBasic::class, 'store'])->name('login-store');
 Route::post('logout', [LoginBasic::class, 'logout'])->name('logout');
 Route::post('register', [RegisterBasic::class, 'store'])->name('register-store');
-Route::get('forgot-password', [ForgotPasswordBasic::class, 'index'])->name('reset-password');
+Route::middleware('guest')->group(function () {
+    Route::get('forgot-password', [ForgotPasswordBasic::class, 'index'])->name('password.request');
+    Route::post('forgot-password', [ForgotPasswordBasic::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('reset-password/{token}', [ForgotPasswordBasic::class, 'showResetForm'])->name('password.reset');
+    Route::post('reset-password', [ForgotPasswordBasic::class, 'reset'])->name('password.update');
+});
 
 // ============================================
 // PROTECTED ADMIN ROUTES
@@ -81,6 +87,8 @@ Route::middleware(['auth'])
         Route::resource('halls', HallController::class);
 
         // Booking Management Routes
+        Route::get('bookings/cancel', [BookingController::class, 'showCancellationForm'])->name('bookings.cancel.form');
+        Route::post('bookings/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel.submit');
         Route::resource('bookings', BookingController::class);
         Route::patch('bookings/{booking}/status', [BookingController::class, 'updateStatus'])->name('bookings.updateStatus');
 
@@ -126,6 +134,7 @@ Route::middleware(['auth'])
         Route::post('bookings', [UserBookingController::class, 'store'])->name('bookings.store');
         Route::get('bookings/cancel', [UserBookingController::class, 'showCancellationForm'])->name('bookings.cancel.form');
         Route::post('bookings/cancel', [UserBookingController::class, 'cancel'])->name('bookings.cancel.submit');
+        Route::get('notifications', [UserNotificationController::class, 'index'])->name('notifications.index');
     });
 
 // ============================================

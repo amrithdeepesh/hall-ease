@@ -130,6 +130,9 @@ class BookingController extends Controller
             'media_requirements' => 'nullable|array',
             'media_requirements.*' => 'in:photography,videography,livestreaming,reels,photos,others',
             'media_requirements_other' => 'nullable|string|max:500',
+            'resources' => 'nullable|array',
+            'resources.*' => 'in:projectors,sound_systems,lighting,seating,other',
+            'resources_other' => 'nullable|string|max:500',
             'details_confirmation' => 'accepted',
         ]);
 
@@ -139,6 +142,15 @@ class BookingController extends Controller
         ) {
             return back()
                 ->withErrors(['media_requirements_other' => 'Please specify the other media requirement.'])
+                ->withInput();
+        }
+
+        if (
+            in_array('other', $request->input('resources', []), true) &&
+            blank($request->resources_other)
+        ) {
+            return back()
+                ->withErrors(['resources_other' => 'Please specify the other resource requirement.'])
                 ->withInput();
         }
 
@@ -176,6 +188,8 @@ class BookingController extends Controller
             'coordinator_emergency_number' => $request->coordinator_emergency_number,
             'media_requirements' => $request->input('media_requirements', []),
             'media_requirements_other' => $request->media_requirements_other,
+            'resources' => $request->input('resources', []),
+            'resources_other' => $request->resources_other,
         ];
         $bookingData[$ownerColumn] = Auth::id();
         if ($this->hasBookingColumn('created_by')) {

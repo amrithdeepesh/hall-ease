@@ -21,13 +21,31 @@
 
     @php
         $renderRows = function ($bookings, $isCancelled = false) {
+            $resourceLabels = [
+                'projectors' => 'Projectors',
+                'sound_systems' => 'Sound Systems',
+                'lighting' => 'Lighting',
+                'seating' => 'Seating',
+                'other' => 'Other',
+            ];
+
             foreach ($bookings as $booking) {
+                $resources = collect($booking->resources ?? [])
+                    ->map(fn ($value) => $resourceLabels[$value] ?? ucfirst(str_replace('_', ' ', $value)))
+                    ->values()
+                    ->all();
+                if (!empty($booking->resources_other)) {
+                    $resources[] = 'Other: ' . $booking->resources_other;
+                }
+                $resourcesText = count($resources) ? implode(', ', $resources) : '-';
+
                 echo '<tr>';
                 echo '<td>' . e($booking->id) . '</td>';
                 echo '<td>' . e(optional($booking->hall)->name ?? 'N/A') . '</td>';
                 echo '<td>' . e(optional($booking->customer)->name ?? optional($booking->user)->name ?? 'N/A') . '</td>';
                 echo '<td>' . e(optional($booking->event_date)->format('M d, Y')) . '</td>';
                 echo '<td>' . e(\Carbon\Carbon::parse($booking->start_time)->format('H:i')) . ' - ' . e(\Carbon\Carbon::parse($booking->end_time)->format('H:i')) . '</td>';
+                echo '<td>' . e($resourcesText) . '</td>';
                 if ($isCancelled) {
                     echo '<td>' . e($booking->cancellation_reason ?? '-') . '</td>';
                 }
@@ -60,13 +78,14 @@
                             <th>Staff</th>
                             <th>Date</th>
                             <th>Time</th>
+                            <th>Resources</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if($upcomingBookings->isEmpty())
                             <tr>
-                                <td colspan="6" class="text-center text-muted">No upcoming bookings.</td>
+                                <td colspan="7" class="text-center text-muted">No upcoming bookings.</td>
                             </tr>
                         @else
                             {!! $renderRows($upcomingBookings) !!}
@@ -92,13 +111,14 @@
                             <th>Staff</th>
                             <th>Date</th>
                             <th>Time</th>
+                            <th>Resources</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if($completedBookings->isEmpty())
                             <tr>
-                                <td colspan="6" class="text-center text-muted">No completed bookings.</td>
+                                <td colspan="7" class="text-center text-muted">No completed bookings.</td>
                             </tr>
                         @else
                             {!! $renderRows($completedBookings) !!}
@@ -124,6 +144,7 @@
                             <th>Staff</th>
                             <th>Date</th>
                             <th>Time</th>
+                            <th>Resources</th>
                             <th>Cancellation Reason</th>
                             <th>Actions</th>
                         </tr>
@@ -131,7 +152,7 @@
                     <tbody>
                         @if($cancelledBookings->isEmpty())
                             <tr>
-                                <td colspan="7" class="text-center text-muted">No cancelled bookings.</td>
+                                <td colspan="8" class="text-center text-muted">No cancelled bookings.</td>
                             </tr>
                         @else
                             {!! $renderRows($cancelledBookings, true) !!}

@@ -1,6 +1,6 @@
 @extends('layouts/blankLayout')
 
-@section('title', 'Forgot Password Basic - Pages')
+@section('title', 'Reset Password - Pages')
 
 @section('page-style')
 @vite(['resources/assets/vendor/scss/pages/page-auth.scss'])
@@ -19,8 +19,8 @@
                         </a>
                     </div>
 
-                    <h4 class="mb-1">Forgot Password?</h4>
-                    <p class="mb-6">Enter your email and we'll send you instructions to reset your password.</p>
+                    <h4 class="mb-1">Reset Password</h4>
+                    <p class="mb-6">Set a new password for your account.</p>
 
                     @if ($errors->any())
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -33,23 +33,38 @@
                         </div>
                     @endif
 
-                    @if (session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    @endif
-
-                    <form id="formAuthentication" class="mb-6" action="{{ route('password.email') }}" method="POST">
+                    <form class="mb-6" method="POST" action="{{ route('password.update') }}">
                         @csrf
+                        <input type="hidden" name="token" value="{{ $token }}">
+
                         <div class="mb-6">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" placeholder="Enter your email" autofocus />
+                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $email) }}" required autofocus>
                             @error('email')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
-                        <button class="btn btn-primary d-grid w-100">Send Reset Link</button>
+
+                        <div class="mb-6 form-password-toggle">
+                            <label for="password" class="form-label">New Password</label>
+                            <div class="input-group input-group-merge">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
+                                <span class="input-group-text cursor-pointer"><i class="icon-base bx bx-hide"></i></span>
+                            </div>
+                            @error('password')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-6 form-password-toggle">
+                            <label for="password_confirmation" class="form-label">Confirm Password</label>
+                            <div class="input-group input-group-merge">
+                                <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required>
+                                <span class="input-group-text cursor-pointer"><i class="icon-base bx bx-hide"></i></span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary d-grid w-100">Reset Password</button>
                     </form>
 
                     <div class="text-center">

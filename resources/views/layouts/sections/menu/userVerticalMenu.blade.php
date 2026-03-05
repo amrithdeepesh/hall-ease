@@ -54,6 +54,13 @@
             </a>
         </li>
 
+        <li class="menu-item mb-2 {{ request()->routeIs('user.notifications.*') ? 'active' : '' }}">
+            <a href="{{ route('user.notifications.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-bell"></i>
+                <div>Notifications</div>
+            </a>
+        </li>
+
         <li class="menu-item mb-2 mt-auto">
             <a href="{{ route('logout') }}" class="menu-link" onclick="event.preventDefault(); document.getElementById('user-sidebar-logout-form').submit();">
                 <i class="menu-icon tf-icons bx bx-log-out"></i>
